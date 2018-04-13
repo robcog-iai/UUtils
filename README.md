@@ -3,8 +3,6 @@ UUtils
 
 Various utility modules for RobCoG.
 
-----
-
 Supported engine version: **UE 4.19**
 
 Usage
