@@ -3,6 +3,8 @@ UUtils
 
 Various utility modules for RobCoG.
 
+----
+
 Supported engine version: **UE 4.19**
 
 Usage
@@ -29,7 +31,6 @@ Modules:
 =====
 
 ## UTags
-----
 
 Using the built in Tag functionalities of Actors and Components to store data in a
 key-value pair form. The plugin has various functions to ease the access for such data.
@@ -93,12 +94,10 @@ Get a map of actors or components to their tag properties giving the world as an
 ```
 
 ## UIds
-----
 
 Helper functions for generating and converting universal unique identifiers ([FGuid](http://api.unrealengine.com/INT/API/Runtime/Core/Misc/FGuid/index.html)) to Base64 and back.
 
 
 ## UConversions
-----
 
 Units and coordinate systems conversions from and to Unreal Engine.
