@@ -64,7 +64,7 @@ struct FConversions
 	// FQuat by value
 	static FORCEINLINE FQuat UToROS(const FQuat& InQuat)
 	{
-		return FQuat(- InQuat.X, InQuat.Y, InQuat.Z, - InQuat.W);
+		return FQuat(- InQuat.X, InQuat.Y, - InQuat.Z, InQuat.W);
 	}
 	
 	// FVector by value
@@ -113,7 +113,7 @@ struct FConversions
 	// FQuat by value
 	static FORCEINLINE FQuat ROSToU(const FQuat& InQuat)
 	{
-		return FQuat(-InQuat.X, InQuat.Y, InQuat.Z, -InQuat.W);
+		return FQuat(- InQuat.X, InQuat.Y, - InQuat.Z, InQuat.W);
 	}
 
 	// FVector by value
@@ -165,7 +165,7 @@ struct FConversions
 	static FORCEINLINE FQuat UToROSCamera(const FQuat& InQuat)
 	{
 		// TODO, dummy
-		return FQuat(-InQuat.X, InQuat.Y, InQuat.Z, -InQuat.W);
+		return FQuat( - InQuat.X, InQuat.Y, - InQuat.Z, InQuat.W);
 	}
 
 	// FVector by value
@@ -218,14 +218,14 @@ struct FConversions
 	static FORCEINLINE FQuat ROSCameraToU(const FQuat& InQuat)
 	{
 		// TODO, dummy
-		return FQuat(-InQuat.X, InQuat.Y, InQuat.Z, -InQuat.W);
+		return FQuat( - InQuat.X, InQuat.Y, - InQuat.Z, InQuat.W);
 	}
 
 	// FVector by value
 	static FORCEINLINE FVector ROSCameraToU(const FVector& InVector)
 	{
 		// TODO, dummy
-		return MToCm(FVector(InVector.X, -InVector.Y, InVector.Z));
+		return MToCm(FVector(InVector.X, - InVector.Y, InVector.Z));
 	}
 
 	// FTransform by reference
