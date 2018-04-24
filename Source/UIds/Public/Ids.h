@@ -17,7 +17,7 @@ struct UIDS_API FIds
 {
 	GENERATED_BODY()
 
-	// Encodes GUID to base64
+	// Encodes GUID to Base64
 	static FString GuidToBase64(FGuid InGuid)
 	{		
 		FBufferArchive GuidBufferArchive;							// FBufferArchive inherits from TArray<uint8>
@@ -27,14 +27,31 @@ struct UIDS_API FIds
 		return GuidInBase64;
 	}
 
-	// Creates a new GUID and encodes it to base64
+	// Creates a new GUID and encodes it to Base64
 	static FString NewGuidInBase64()
 	{
 		FGuid NewGuid = FGuid::NewGuid();
 		return GuidToBase64(NewGuid);
 	}
 
-	// Creates a GUID from base64
+	// Encodes GUID to Base64
+	static FString GuidToBase64Url(FGuid InGuid)
+	{
+		FBufferArchive GuidBufferArchive;							// FBufferArchive inherits from TArray<uint8>
+		GuidBufferArchive << InGuid;
+		FString GuidInBase64 = FBase64::Encode(GuidBufferArchive);	// Needs binary as TArray<uint8>
+		GuidInBase64.RemoveFromEnd(TEXT("=="));						// Remove last unnecessary two equal characters from end
+		return Base64ToBase64Url(GuidInBase64);
+	}
+
+	// Creates a new GUID and encodes it to Base64Url
+	static FString NewGuidInBase64Url()
+	{
+		FGuid NewGuid = FGuid::NewGuid();
+		return GuidToBase64Url(NewGuid);
+	}
+
+	// Creates a GUID from Base64
 	static FGuid Base64ToGuid(const FString& InGuidInBase64, bool bNewIfInvalid = false)
 	{
 		TArray<uint8> GuidBinaryArray;
@@ -58,5 +75,29 @@ struct UIDS_API FIds
 		{
 			return LocalGuid;
 		}
+	}
+
+	// Creates a GUID from Base64Url
+	static FGuid Base64UrlToGuid(const FString& InGuidInBase64, bool bNewIfInvalid = false)
+	{
+		return Base64ToGuid(Base64UrlToBase64(InGuidInBase64), bNewIfInvalid);
+	}
+
+	// Convert Base64 to Base64Url (e.g. replace '+', '/' with '_','-')
+	FORCEINLINE static FString Base64ToBase64Url(const FString& InBase64)
+	{
+		FString Base64Url = InBase64;
+		Base64Url.ReplaceInline(TEXT("+"), TEXT("-"), ESearchCase::CaseSensitive);
+		Base64Url.ReplaceInline(TEXT("/"), TEXT("_"), ESearchCase::CaseSensitive);
+		return Base64Url;
+	}
+
+	// Convert Base64Url to Base64 (e.g. replace '_','-' with '+', '/')
+	FORCEINLINE static FString Base64UrlToBase64(const FString& InBase64Url)
+	{
+		FString Base64 = InBase64Url;
+		Base64.ReplaceInline(TEXT("-"), TEXT("+"), ESearchCase::CaseSensitive);
+		Base64.ReplaceInline(TEXT("_"), TEXT("/"), ESearchCase::CaseSensitive);
+		return Base64;
 	}
 };
