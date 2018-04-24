@@ -4,7 +4,7 @@
 	"VersionName": "1.0",
 	"FriendlyName": "UUtils",
 	"Description": "Plugin with various utility modules for RobCoG",
-	"Category": "Other",
+	"Category": "RobCoG",
 	"CreatedBy": "Andrei Haidu",
 	"CreatedByURL": "http://haidu.eu/",
 	"DocsURL": "https://github.com/robcog-iai/UUtils",
