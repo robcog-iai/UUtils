@@ -107,12 +107,20 @@ bool FTags::HasKeyValuePair(const TArray<FName>& InTags, const FString& TagType,
 // Check if key value pair exists in actor tags
 bool FTags::HasKeyValuePair(AActor* Actor, const FString& TagType, const FString& TagKey, const FString& TagValue)
 {
+	if (Actor == nullptr)
+	{
+		return false;
+	}
 	return FTags::HasKeyValuePair(Actor->Tags, TagType, TagKey, TagValue);
 }
 
 // Check if key value pair exists in component tags
 bool FTags::HasKeyValuePair(UActorComponent* Component, const FString& TagType, const FString& TagKey, const FString& TagValue)
 {
+	if (Component == nullptr)
+	{
+		return false;
+	}
 	return FTags::HasKeyValuePair(Component->ComponentTags, TagType, TagKey, TagValue);
 }
 
