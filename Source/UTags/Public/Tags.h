@@ -31,6 +31,25 @@ struct UTAGS_API FTags
 	// Return the index where the tag type was found in the component's array
 	static int32 GetTagTypeIndex(UActorComponent* Component, const FString& TagType);
 
+	// Return the index where the tag type was found in the object
+	static int32 GetTagTypeIndex(UObject* Object, const FString& TagType);
+
+	///////////////////////////////////////////////////////////////////////////
+	// Check if type exists in tag
+	static bool HasType(const FName& InTag, const FString& TagType);
+
+	// Check if type exists tag array
+	static bool HasType(const TArray<FName>& InTags, const FString& TagType);
+
+	// Check if type exists from actor
+	static bool HasType(AActor* Actor, const FString& TagType);
+
+	// Check if type exists from component
+	static bool HasType(UActorComponent* Component, const FString& TagType);
+
+	// Check if type exists from object
+	static bool HasType(UObject* Object, const FString& TagType);
+
 
 	///////////////////////////////////////////////////////////////////////////
 	// Check if key exists in tag
@@ -44,6 +63,9 @@ struct UTAGS_API FTags
 
 	// Check if key exists from component
 	static bool HasKey(UActorComponent* Component, const FString& TagType, const FString& TagKey);
+	
+	// Check if key exists from object
+	static bool HasKey(UObject* Object, const FString& TagType, const FString& TagKey);
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -58,6 +80,9 @@ struct UTAGS_API FTags
 
 	// Check if key value pair exists in component tags
 	static bool HasKeyValuePair(UActorComponent* Component, const FString& TagType, const FString& TagKey, const FString& TagValue);
+
+	// Check if key value pair exists in object
+	static bool HasKeyValuePair(UObject* Object, const FString& TagType, const FString& TagKey, const FString& TagValue);
 
 
 	///////////////////////////////////////////////////////////////////////////

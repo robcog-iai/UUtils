@@ -3,7 +3,6 @@
 
 #include "Tags.h"
 
-
 ///////////////////////////////////////////////////////////////////////////
 // Return the index where the tag type was found in the array
 int32 FTags::GetTagTypeIndex(const TArray<FName>& InTags, const FString& TagType)
@@ -39,18 +38,85 @@ int32 FTags::GetTagTypeIndex(UActorComponent* Component, const FString& TagType)
 	return GetTagTypeIndex(Component->ComponentTags, TagType);
 }
 
+// Return the index where the tag type was found in the object
+int32 FTags::GetTagTypeIndex(UObject* Object, const FString& TagType)
+{
+	if (UActorComponent* ActComp = Cast<UActorComponent>(Object))
+	{
+		return GetTagTypeIndex(ActComp->ComponentTags, TagType);
+	}
+	else if (AActor* Act = Cast<AActor>(Object))
+	{
+		return GetTagTypeIndex(Act->Tags, TagType);
+	}
+	else
+	{
+		return INDEX_NONE;
+	}	
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+// Check if type exists in tag
+bool FTags::HasType(const FName& InTag, const FString& TagType)
+{
+	return InTag.ToString().StartsWith(TagType);
+}
+
+// Check if type exists in tag array
+bool FTags::HasType(const TArray<FName>& InTags, const FString& TagType)
+{
+	return (FTags::GetTagTypeIndex(InTags, TagType) != INDEX_NONE);
+}
+
+// Check if type exists from actor
+bool FTags::HasType(AActor* Actor, const FString& TagType)
+{
+	if (Actor == nullptr)
+	{
+		return false;
+	}
+	return FTags::HasType(Actor->Tags, TagType);
+}
+
+// Check if type exists from component
+bool FTags::HasType(UActorComponent* Component, const FString& TagType)
+{
+	if (Component == nullptr)
+	{
+		return false;
+	}
+	return FTags::HasType(Component->ComponentTags, TagType);
+}
+
+// Check if type exists from object
+bool FTags::HasType(UObject* Object, const FString& TagType)
+{
+	if (Object == nullptr)
+	{
+		return false;
+	}
+	if (UActorComponent* ActComp = Cast<UActorComponent>(Object))
+	{
+		return FTags::HasType(ActComp, TagType);
+	}
+	else if (AActor* Act = Cast<AActor>(Object))
+	{
+		return FTags::HasType(Act, TagType);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 // Check if key exists in tag
 bool FTags::HasKey(const FName& InTag, const FString& TagKey)
 {
-	// Check if key exist in tag
-	if (InTag.ToString().Find(";" + TagKey) != INDEX_NONE)
-	{
-		return true;
-	}
-	// Key was not found, return false
-	return false;
+	return (InTag.ToString().Find(";" + TagKey) != INDEX_NONE);
 }
 
 // Check if key exists tag array
@@ -69,26 +135,50 @@ bool FTags::HasKey(const TArray<FName>& InTags, const FString& TagType, const FS
 // Check if key exists from actor
 bool FTags::HasKey(AActor* Actor, const FString& TagType, const FString& TagKey)
 {
+	if (Actor == nullptr)
+	{
+		return false;
+	}
 	return FTags::HasKey(Actor->Tags, TagType, TagKey);
 }
 
 // Check if key exists from component
 bool FTags::HasKey(UActorComponent* Component, const FString& TagType, const FString& TagKey)
 {
+	if (Component == nullptr)
+	{
+		return false;
+	}
 	return FTags::HasKey(Component->ComponentTags, TagType, TagKey);
 }
+
+// Check if key exists from object
+bool FTags::HasKey(UObject* Object, const FString& TagType, const FString& TagKey)
+{
+	if (Object == nullptr)
+	{
+		return false;
+	}
+	if (UActorComponent* ActComp = Cast<UActorComponent>(Object))
+	{
+		return FTags::HasKey(ActComp, TagType, TagKey);
+	}
+	else if (AActor* Act = Cast<AActor>(Object))
+	{
+		return FTags::HasKey(Act, TagType, TagKey);
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 ///////////////////////////////////////////////////////////////////////////
 // Check if key value pair exists in tag
 bool FTags::HasKeyValuePair(const FName& InTag, const FString& TagKey, const FString& TagValue)
 {
-	// Check if key exist in tag
-	if (InTag.ToString().Find(";" + TagKey + "," + TagValue) != INDEX_NONE)
-	{
-		return true;
-	}
-	// Key was not found, return false
-	return false;
+	return InTag.ToString().Find(";" + TagKey + "," + TagValue) != INDEX_NONE;
 }
 
 // Check if key value pair exists in tag array
@@ -123,6 +213,28 @@ bool FTags::HasKeyValuePair(UActorComponent* Component, const FString& TagType, 
 	}
 	return FTags::HasKeyValuePair(Component->ComponentTags, TagType, TagKey, TagValue);
 }
+
+// Check if key value pair exists in object
+bool FTags::HasKeyValuePair(UObject* Object, const FString& TagType, const FString& TagKey, const FString& TagValue)
+{
+	if (Object == nullptr)
+	{
+		return false;
+	}
+	if (UActorComponent* ActComp = Cast<UActorComponent>(Object))
+	{
+		return FTags::HasKeyValuePair(ActComp, TagType, TagKey, TagValue);
+	}
+	else if (AActor* Act = Cast<AActor>(Object))
+	{
+		return FTags::HasKeyValuePair(Act, TagType, TagKey, TagValue);
+	}
+	else
+	{
+		return false;
+	}	
+}
+
 
 ///////////////////////////////////////////////////////////////////////////
 // Get tag key value from tag
