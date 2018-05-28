@@ -7,23 +7,35 @@
 // Return the index where the tag type was found in the array
 int32 FTags::GetTagTypeIndex(const TArray<FName>& InTags, const FString& TagType)
 {
-	// Init tag index
-	int32 TagIndex = INDEX_NONE;
-
 	// Iterate all the tags, check for keyword TagType
-	for (const auto& TagItr : InTags)
+	for (int32 i = 0; i < InTags.Num(); ++i)
 	{
-		// Increment the position of the tag in the array
-		++TagIndex;
-
 		// Check if tag is of given type
-		if (TagItr.ToString().StartsWith(TagType))
+		if (InTags[i].ToString().StartsWith(TagType))
 		{
-			return TagIndex;
+			return i;
 		}
 	}
 	// return INDEX_NONE if type was not found 
 	return INDEX_NONE;
+
+	//// Init tag index
+	//int32 TagIndex = INDEX_NONE;
+
+	//// Iterate all the tags, check for keyword TagType
+	//for (const auto& TagItr : InTags)
+	//{
+	//	// Increment the position of the tag in the array
+	//	++TagIndex;
+
+	//	// Check if tag is of given type
+	//	if (TagItr.ToString().StartsWith(TagType))
+	//	{
+	//		return TagIndex;
+	//	}
+	//}
+	//// return INDEX_NONE if type was not found 
+	//return INDEX_NONE;
 }
 
 // Return the index where the tag type was found in the actor's array
@@ -66,7 +78,7 @@ bool FTags::HasType(const FName& InTag, const FString& TagType)
 // Check if type exists in tag array
 bool FTags::HasType(const TArray<FName>& InTags, const FString& TagType)
 {
-	return (FTags::GetTagTypeIndex(InTags, TagType) != INDEX_NONE);
+	return FTags::GetTagTypeIndex(InTags, TagType) != INDEX_NONE;
 }
 
 // Check if type exists from actor
@@ -116,7 +128,7 @@ bool FTags::HasType(UObject* Object, const FString& TagType)
 // Check if key exists in tag
 bool FTags::HasKey(const FName& InTag, const FString& TagKey)
 {
-	return (InTag.ToString().Find(";" + TagKey) != INDEX_NONE);
+	return InTag.ToString().Find(";" + TagKey) != INDEX_NONE;
 }
 
 // Check if key exists tag array
@@ -274,12 +286,22 @@ FString FTags::GetKeyValue(const TArray<FName>& InTags, const FString& TagType, 
 // Get tag key value from actor
 FString FTags::GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey)
 {
+	if (Actor == nullptr)
+	{
+		return FString();
+	}
+	UE_LOG(LogTemp, Error, TEXT("[%s][%d] Act=%s"), TEXT(__FUNCTION__), __LINE__, *Actor->GetName());
+
 	return FTags::GetKeyValue(Actor->Tags, TagType, TagKey);
 }
 
 // Get tag key value from component
 FString FTags::GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
 {
+	if (Component == nullptr)
+	{
+		return FString();
+	}
 	return FTags::GetKeyValue(Component->ComponentTags, TagType, TagKey);
 }
 
