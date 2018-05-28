@@ -290,8 +290,6 @@ FString FTags::GetKeyValue(AActor* Actor, const FString& TagType, const FString&
 	{
 		return FString();
 	}
-	UE_LOG(LogTemp, Error, TEXT("[%s][%d] Act=%s"), TEXT(__FUNCTION__), __LINE__, *Actor->GetName());
-
 	return FTags::GetKeyValue(Actor->Tags, TagType, TagKey);
 }
 
