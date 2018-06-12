@@ -100,10 +100,10 @@ struct UTAGS_API FTags
 
 
 	///////////////////////////////////////////////////////////////////////////
-	// Add tag key value from tags, if bReplaceExisting is true, replace existing value
+	// Add tag key value to tag, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePair(FName& InTag, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true);
 
-	// Add tag key value from tags, if bReplaceExisting is true, replace existing value
+	// Add tag key value to tags, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePair(TArray<FName>& InTags, const FString& TagType, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true);
 
 	// Add tag key value to actor, if bReplaceExisting is true, replace existing value
@@ -111,6 +111,34 @@ struct UTAGS_API FTags
 
 	// Add tag key value to component, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePair(UActorComponent* Component,	const FString& TagType,	const FString& TagKey, const FString& TagValue,	bool bReplaceExisting = true);
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//Add array of tag key values to tag, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(FName& InTag, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting = true);
+
+	// Add array of tag key values to tags, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting = true);
+
+	// Add array of tag key values to the actor,, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(AActor* Actor, const FString& TagType, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting = true);
+
+	// Add array of tag key values to component, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(UActorComponent* Component, const FString& TagType, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting = true);
+
+
+	///////////////////////////////////////////////////////////////////////////
+	//Add array of tag key values to tag, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(FName& InTag, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting = true);
+
+	// Add array of tag key values to tags, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting = true);
+
+	// Add array of tag key values to the actor,, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(AActor* Actor, const FString& TagType, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting = true);
+
+	// Add array of tag key values to component, if bReplaceExisting is true, replace existing value
+	static bool AddKeyValuePairs(UActorComponent* Component, const FString& TagType, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting = true);
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -127,7 +155,12 @@ struct UTAGS_API FTags
 	static bool RemoveKeyValuePair(UActorComponent* Component, const FString& TagType, const FString& TagKey);
 
 	// Remove all tag key values from world
+	static bool RemoveAllKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey);
+
+	// Remove all tag key values from world
+	DEPRECATED(4.19, "RemoveKeyValuePairs is deprecated.  Use RemoveAllKeyValuePairs instead")
 	static bool RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey);
+
 
 
 	///////////////////////////////////////////////////////////////////////////

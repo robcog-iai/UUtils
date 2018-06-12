@@ -309,7 +309,7 @@ FString FTags::GetKeyValue(UActorComponent* Component, const FString& TagType, c
 bool FTags::AddKeyValuePair(FName& InTag, const FString& TagKey, const FString& TagValue, bool bReplaceExisting)
 {
 	// Get the key value
-	FString CurrVal = GetKeyValue(InTag, TagKey);
+	FString CurrVal = FTags::GetKeyValue(InTag, TagKey);
 	if (CurrVal.IsEmpty())
 	{
 		// Key does not exist, add new one at the end
@@ -358,6 +358,122 @@ bool FTags::AddKeyValuePair(UActorComponent* Component, const FString& TagType, 
 
 
 ///////////////////////////////////////////////////////////////////////////
+//Add array of tag key values to tag, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(FName& InTag, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	for (const auto& TagKeyVal : InTagKeyValuePairs)
+	{
+		// Get the key value
+		FString CurrVal = FTags::GetKeyValue(InTag, TagKeyVal.Key);
+		if (CurrVal.IsEmpty())
+		{
+			// Key does not exist, add new one at the end
+			InTag = FName(*InTag.ToString().Append(TagKeyVal.Key).Append(",").Append(TagKeyVal.Value).Append(";"));
+		}
+		else if (bReplaceExisting)
+		{
+			// Key exist, replace
+			InTag = FName(*InTag.ToString().Replace(*CurrVal, *TagKeyVal.Value));
+		}
+	}
+	return true;
+}
+
+// Add array of tag key values to tags, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	// Check if type exists and return index of its location in the array
+	int32 TagIndex = FTags::GetTagTypeIndex(InTags, TagType);
+	if (TagIndex != INDEX_NONE)
+	{
+		return FTags::AddKeyValuePairs(InTags[TagIndex], InTagKeyValuePairs, bReplaceExisting);
+	}
+	else // Type was not found, create a new one
+	{
+		FString NewTag;
+		NewTag.Append(TagType).Append(";");
+		for (const auto& TagKeyVal : InTagKeyValuePairs)
+		{
+			NewTag.Append(TagKeyVal.Key).Append(",").Append(TagKeyVal.Value).Append(";");
+		}
+		InTags.Add(FName(*NewTag));
+		return true;
+	}
+	return false;
+}
+
+// Add array of tag key values to the actor,, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(AActor* Actor, const FString& TagType, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	return FTags::AddKeyValuePairs(Actor->Tags, TagType, InTagKeyValuePairs, bReplaceExisting);
+}
+
+// Add array of tag key values to component, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(UActorComponent* Component, const FString& TagType, const TArray<TPair<FString, FString>>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	return FTags::AddKeyValuePairs(Component->ComponentTags, TagType, InTagKeyValuePairs, bReplaceExisting);
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+//Add array of tag key values to tag, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(FName& InTag, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	for (const auto& TagKeyVal : InTagKeyValuePairs)
+	{
+		// Get the key value
+		FString CurrVal = FTags::GetKeyValue(InTag, TagKeyVal.Key);
+		if (CurrVal.IsEmpty())
+		{
+			// Key does not exist, add new one at the end
+			InTag = FName(*InTag.ToString().Append(TagKeyVal.Key).Append(",").Append(TagKeyVal.Value).Append(";"));
+		}
+		else if (bReplaceExisting)
+		{
+			// Key exist, replace
+			InTag = FName(*InTag.ToString().Replace(*CurrVal, *TagKeyVal.Value));
+		}
+	}
+	return true;
+}
+
+// Add array of tag key values to tags, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	// Check if type exists and return index of its location in the array
+	int32 TagIndex = FTags::GetTagTypeIndex(InTags, TagType);
+	if (TagIndex != INDEX_NONE)
+	{
+		return FTags::AddKeyValuePairs(InTags[TagIndex], InTagKeyValuePairs, bReplaceExisting);
+	}
+	else // Type was not found, create a new one
+	{
+		FString NewTag;
+		NewTag.Append(TagType).Append(";");
+		for (const auto& TagKeyVal : InTagKeyValuePairs)
+		{
+			NewTag.Append(TagKeyVal.Key).Append(",").Append(TagKeyVal.Value).Append(";");
+		}
+		InTags.Add(FName(*NewTag));
+		return true;
+	}
+	return false;
+}
+
+// Add array of tag key values to the actor,, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(AActor* Actor, const FString& TagType, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	return FTags::AddKeyValuePairs(Actor->Tags, TagType, InTagKeyValuePairs, bReplaceExisting);
+}
+
+// Add array of tag key values to component, if bReplaceExisting is true, replace existing value
+bool FTags::AddKeyValuePairs(UActorComponent* Component, const FString& TagType, const TMap<FString, FString>& InTagKeyValuePairs, bool bReplaceExisting)
+{
+	return FTags::AddKeyValuePairs(Component->ComponentTags, TagType, InTagKeyValuePairs, bReplaceExisting);
+}
+
+
+///////////////////////////////////////////////////////////////////////////
 // Remove tag key value from tag
 bool FTags::RemoveKeyValuePair(FName& InTag, const FString& TagKey)
 {
@@ -400,7 +516,7 @@ bool FTags::RemoveKeyValuePair(UActorComponent* Component, const FString& TagTyp
 }
 
 // Remove all tag key values from world
-bool FTags::RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey)
+bool FTags::RemoveAllKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey)
 {
 	// Iterate actors from world
 	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
@@ -414,6 +530,12 @@ bool FTags::RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FSt
 		}
 	}
 	return true;
+}
+
+// Remove all tag key values from world
+bool FTags::RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey)
+{
+	return FTags::RemoveAllKeyValuePairs(World, TagType, TagKey);
 }
 
 
