@@ -98,6 +98,9 @@ struct UTAGS_API FTags
 	// Get tag key value from component
 	static FString GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey);
 
+	// Get tag key value from object
+	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
+
 
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag key value to tag, if bReplaceExisting is true, replace existing value

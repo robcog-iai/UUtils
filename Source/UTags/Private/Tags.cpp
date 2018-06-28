@@ -11,7 +11,7 @@ int32 FTags::GetTagTypeIndex(const TArray<FName>& InTags, const FString& TagType
 	for (int32 i = 0; i < InTags.Num(); ++i)
 	{
 		// Check if tag is of given type
-		if (InTags[i].ToString().StartsWith(TagType))
+		if (InTags[i].ToString().StartsWith(TagType + ";"))
 		{
 			return i;
 		}
@@ -29,7 +29,7 @@ int32 FTags::GetTagTypeIndex(const TArray<FName>& InTags, const FString& TagType
 	//	++TagIndex;
 
 	//	// Check if tag is of given type
-	//	if (TagItr.ToString().StartsWith(TagType))
+	//	if (TagItr.ToString().StartsWith(TagType + ";"))
 	//	{
 	//		return TagIndex;
 	//	}
@@ -303,6 +303,19 @@ FString FTags::GetKeyValue(UActorComponent* Component, const FString& TagType, c
 	return FTags::GetKeyValue(Component->ComponentTags, TagType, TagKey);
 }
 
+// Get tag key value from object
+FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey)
+{
+	if (AActor* ObjAsAct = Cast<AActor>(Object))
+	{
+		return GetKeyValue(ObjAsAct->Tags, TagType, TagKey);
+	}
+	else if (UActorComponent* ObjAsActComp = Cast<UActorComponent>(Object))
+	{
+		return GetKeyValue(ObjAsActComp->ComponentTags, TagType, TagKey);
+	}
+	return FString();
+}
 
 ///////////////////////////////////////////////////////////////////////////
 // Add tag key value from tags, if bReplaceExisting is true, replace existing value
