@@ -25,9 +25,6 @@ public:
 	TSharedPtr<class SUtagsListWidget> SUtagsListWidgetRef;
 private:
 	
-
 	TSharedPtr<SWidget> ToolkitWidget;
 
-	template<typename T>
-	void FindAllActors(TArray<T*>& Out);
 };

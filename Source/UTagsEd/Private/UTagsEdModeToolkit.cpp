@@ -24,6 +24,7 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 {
 	struct Locals
 	{
+		//ToDo Change to are actors selectable
 		static bool IsWidgetEnabled()
 		{
 			return GEditor->GetSelectedActors()->Num() != 0;
@@ -64,15 +65,7 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 
 	};
 
-	TArray<AActor*> FoundActors;
-	//	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AActor::StaticClass(), FoundActors);
-	FindAllActors(FoundActors);
-	//	std::string MyString = std::string(TCHAR_TO_UTF8(*FoundActors[0]->GetName()));
-	
-
 	const float Factor = 256.0f;
-
-
 
 	SAssignNew(ToolkitWidget, SBorder)
 		.VAlign(VAlign_Fill)
@@ -115,6 +108,8 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 		.AutoHeight()
 		[
 			SAssignNew(SUtagsListWidgetRef, SUtagsListWidget)
+		//	SNew (SListView)
+
 		]
 
 		];
@@ -135,19 +130,6 @@ FText FUTagsEdModeToolkit::GetBaseToolkitName() const
 class FEdMode* FUTagsEdModeToolkit::GetEditorMode() const
 {
 	return GLevelEditorModeTools().GetActiveMode(FUTagsEdMode::EM_UTagsEdModeId);
-}
-//Find all Actors
-template<typename T>
-void FUTagsEdModeToolkit::FindAllActors(TArray<T*>& Out)
-{
-	for (TObjectIterator<AActor> It; It; ++It)
-	{
-		T* Actor = Cast<T>(*It);
-		if (Actor && !Actor->IsPendingKill())
-		{
-			Out.Add(Actor);
-		}
-	}
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -26,6 +26,9 @@ public class UTagsEd : ModuleRules
 			new string[]
 			{
 				"Core",
+                "UTags",
+                "UIds",
+                "UConversions",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

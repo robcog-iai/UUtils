@@ -1,6 +1,7 @@
 
 #include "SUtagsListWidget.h"
 
+
 #define LOCTEXT_NAMESPACE "SUtagsListWidget"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -21,17 +22,16 @@ void SUtagsListWidget::Construct(const FArguments& Args)
 
 			SNew(SBox)
 			//	.MaxDesiredHeight(ChildSlot) FOR SCROLLBAR WE MUST GET THE SIZE OF THE CHILDREN AND SET IT TO THE MAXIMUM OF THE WINDOW
-			//	.MaxDesiredWidth(ChildSlot)
 		[
 			SNew(SScrollBox)
 			.ExternalScrollbar(ScrollBar)
 
 		+ SScrollBox::Slot()[
-	
+
 			SNew(SSearchBox)
 				.HintText(LOCTEXT("SearchBoxHint", "Search after object name"))
 				.OnTextChanged(this, &SUtagsListWidget::HandleFilterStringTextChanged)
-				
+
 		]
 		+ SScrollBox::Slot()
 				[
@@ -39,44 +39,48 @@ void SUtagsListWidget::Construct(const FArguments& Args)
 					.Text(ButtonFText)
 				.OnClicked(this, &SUtagsListWidget::ButtonPressed)
 				]
-				+ SScrollBox::Slot()
-					[
-						SNew(SSplitter).ResizeMode(ESplitterResizeMode::Fill)
-						+ SSplitter::Slot()
-					[
-						SAssignNew(FirstViewWidget, SListView<TSharedPtr<FString>>)
-						.ItemHeight(22)
-					.ListItemsSource(&ItemsFirstColumn) //The Items array is the source of this listview
-					.OnGenerateRow(this, &SUtagsListWidget::OnGenerateRowForList)
-					.HeaderRow(
-						SNew(SHeaderRow)
-						+ SHeaderRow::Column("FirstHeaderRow")
-						.FillWidth(1)
-						[
-							SNew(STextBlock)
-							.Text(FText::FromString("Object/Type"))
-						]
-					)
-					]
+					
+			
+			+ SScrollBox::Slot()
+				[
+					SNew(SSplitter).ResizeMode(ESplitterResizeMode::Fill)
 					+ SSplitter::Slot()
+				[
+					SAssignNew(FirstViewWidget, SListView<TSharedPtr<FString>>)
+					.ItemHeight(22)
+				.ListItemsSource(&ItemsFirstColumn) //The Items array is the source of this listview
+				.OnGenerateRow(this, &SUtagsListWidget::OnGenerateRowForList)
+				.HeaderRow(
+					SNew(SHeaderRow)
+					+ SHeaderRow::Column("FirstHeaderRow")
+					.FillWidth(1)
 					[
+						SNew(STextBlock)
+						.Text(FText::FromString("Object/Type"))
+					]
+			)
+				]
+			+ SSplitter::Slot()
+				[
 					SAssignNew(SecondViewWidget, SListView<TSharedPtr<FString>>)
 					.ItemHeight(22)
-					.ListItemsSource(&ItemsSecondColumn) //The Items array is the source of this listview
-					.OnGenerateRow(this, &SUtagsListWidget::OnGenerateRowForEditableList)
-					.HeaderRow(
-						SNew(SHeaderRow)
-						+ SHeaderRow::Column("SecondHeaderRow")
-						[
-							SNew(STextBlock)
-							.Text(FText::FromString("Key Value Tags"))
-						]
-					)
-
+				.ListItemsSource(&ItemsSecondColumn) //The Items array is the source of this listview
+				.OnGenerateRow(this, &SUtagsListWidget::OnGenerateRowForEditableList)
+				.HeaderRow(
+					SNew(SHeaderRow)
+					+ SHeaderRow::Column("SecondHeaderRow")
+					[
+						SNew(STextBlock)
+						.Text(FText::FromString("Key Value Tags"))
 					]
+			)
+
 				]
+					
+
 			]
-		];
+		]
+	];
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -103,6 +107,7 @@ TSharedRef<ITableRow> SUtagsListWidget::OnGenerateRowForList(TSharedPtr<FString>
 		[
 			SNew(STextBlock).Text(FText::FromString(*Item.Get()))
 		];
+
 }
 
 TSharedRef<ITableRow> SUtagsListWidget::OnGenerateRowForEditableList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
@@ -120,3 +125,41 @@ TSharedRef<ITableRow> SUtagsListWidget::OnGenerateRowForEditableList(TSharedPtr<
 }
 
 #undef LOCTEXT_NAMESPACE
+//
+////
+//+ SScrollBox::Slot()
+//[
+//	SNew(SSplitter).ResizeMode(ESplitterResizeMode::Fill)
+//	+ SSplitter::Slot()
+//	[
+//		SAssignNew(FirstViewWidget, SListView<TSharedPtr<FString>>)
+//		.ItemHeight(22)
+//	.ListItemsSource(&ItemsFirstColumn) //The Items array is the source of this listview
+//	.OnGenerateRow(this, &SUtagsListWidget::OnGenerateRowForList)
+//	.HeaderRow(
+//		SNew(SHeaderRow)
+//		+ SHeaderRow::Column("FirstHeaderRow")
+//		.FillWidth(1)
+//		[
+//			SNew(STextBlock)
+//			.Text(FText::FromString("Object/Type"))
+//		]
+//)
+//	]
+//+ SSplitter::Slot()
+//[
+//	SAssignNew(SecondViewWidget, SListView<TSharedPtr<FString>>)
+//	.ItemHeight(22)
+//	.ListItemsSource(&ItemsSecondColumn) //The Items array is the source of this listview
+//	.OnGenerateRow(this, &SUtagsListWidget::OnGenerateRowForEditableList)
+//	.HeaderRow(
+//		SNew(SHeaderRow)
+//		+ SHeaderRow::Column("SecondHeaderRow")
+//		[
+//			SNew(STextBlock)
+//			.Text(FText::FromString("Key Value Tags"))
+//		]
+//)
+//
+//]
+//]
