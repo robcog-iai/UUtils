@@ -6,6 +6,17 @@
 #include "EngineUtils.h"
 #include "Tags.generated.h"
 
+
+
+USTRUCT()
+struct  FTagsData 
+{
+	GENERATED_USTRUCT_BODY()
+
+	FString TagType;
+
+	TMap<FString, FString> KeyValueMap;
+};
 /**
 * Helper functions for manipulating tags with key value pairs
 *
@@ -101,6 +112,11 @@ struct UTAGS_API FTags
 	// Get tag key value from object
 	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
 
+	///////////////////////////////////////////////////////////////////////////
+	//Get All Actors
+	static TMap<TWeakObjectPtr<AActor*>, FTagsData> GetAllActorsWithTagContent();
+	// Get All Actors Names
+	static TArray<FString> GetAllActorsNames();
 
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag key value to tag, if bReplaceExisting is true, replace existing value
