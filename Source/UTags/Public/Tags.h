@@ -6,13 +6,6 @@
 #include "EngineUtils.h"
 #include "Tags.generated.h"
 
-//typedef TMap< UObject*, TArray<UObject*> > ObjectReferenceGraph;
-//typedef TMap<UObject*, int32> ReferenceTreeMap;
-//typedef TMap<UObject*, FString> ObjectNameMap;
-typedef TMap<UObject*, FTagData> ObjectTagDataMap;
-typedef TMap<AActor*, FTagData> ActorTagDataMap;
-typedef TMap<UActorComponent*, FTagData> ComponentTagDataMap;
-
 /*
 * FTagData - the structure of the tag data
 * TagType;Key1,Value1;Key2,Value2;[..]
@@ -43,6 +36,13 @@ USTRUCT()
 struct UTAGS_API FTags
 {
 	GENERATED_USTRUCT_BODY()
+
+	//typedef TMap< UObject*, TArray<UObject*> > ObjectReferenceGraph;
+	//typedef TMap<UObject*, int32> ReferenceTreeMap;
+	//typedef TMap<UObject*, FString> ObjectNameMap;
+	typedef TMap<UObject*, FTagData> ObjectTagDataMap;
+	typedef TMap<AActor*, FTagData> ActorTagDataMap;
+	typedef TMap<UActorComponent*, FTagData> ComponentTagDataMap;
 
 	///////////////////////////////////////////////////////////////////////////
 	// Return the index where the tag type was found in the array
