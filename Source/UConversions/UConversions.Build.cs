@@ -11,7 +11,7 @@ public class UConversions : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"UConversions/Public"
+				//"UConversions/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -19,7 +19,7 @@ public class UConversions : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"UConversions/Private",
+				//"UConversions/Private",
 				// ... add other private include paths required here ...
 			}
 			);

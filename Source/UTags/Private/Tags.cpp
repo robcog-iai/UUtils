@@ -250,7 +250,7 @@ bool FTags::HasKeyValuePair(UObject* Object, const FString& TagType, const FStri
 
 ///////////////////////////////////////////////////////////////////////////
 // Get tag key value from tag
-FString FTags::GetKeyValue(const FName& InTag, const FString& TagKey)
+FString FTags::GetValue(const FName& InTag, const FString& TagKey)
 {
 	// Copy of the current tag as FString
 	FString CurrTag = InTag.ToString();
@@ -269,8 +269,13 @@ FString FTags::GetKeyValue(const FName& InTag, const FString& TagKey)
 	return FString();
 }
 
+FString FTags::GetKeyValue(const FName& InTag, const FString& TagKey)
+{
+	return FTags::GetValue(InTag, TagKey);
+}
+
 // Get tag key value from tag array
-FString FTags::GetKeyValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey)
+FString FTags::GetValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey)
 {
 	// Check if type exists and return index of its location in the array
 	int32 TagIndex = FTags::GetTagTypeIndex(InTags, TagType);
@@ -283,38 +288,58 @@ FString FTags::GetKeyValue(const TArray<FName>& InTags, const FString& TagType, 
 	return FString();
 }
 
+FString FTags::GetKeyValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey)
+{
+	return FTags::GetValue(InTags, TagType, TagKey);
+}
+
 // Get tag key value from actor
-FString FTags::GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey)
+FString FTags::GetValue(AActor* Actor, const FString& TagType, const FString& TagKey)
 {
 	if (Actor == nullptr)
 	{
 		return FString();
 	}
-	return FTags::GetKeyValue(Actor->Tags, TagType, TagKey);
+	return FTags::GetValue(Actor->Tags, TagType, TagKey);
+}
+
+FString FTags::GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey)
+{
+	return FTags::GetValue(Actor, TagType, TagKey);
 }
 
 // Get tag key value from component
-FString FTags::GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
+FString FTags::GetValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
 {
 	if (Component == nullptr)
 	{
 		return FString();
 	}
-	return FTags::GetKeyValue(Component->ComponentTags, TagType, TagKey);
+	return FTags::GetValue(Component->ComponentTags, TagType, TagKey);
+}
+
+FString FTags::GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
+{
+	return FTags::GetValue(Component, TagType, TagKey);
 }
 
 // Get tag key value from object
-FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey)
+FString FTags::GetValue(UObject* Object, const FString& TagType, const FString& TagKey)
 {
 	if (AActor* ObjAsAct = Cast<AActor>(Object))
 	{
-		return GetKeyValue(ObjAsAct->Tags, TagType, TagKey);
+		return GetValue(ObjAsAct->Tags, TagType, TagKey);
 	}
 	else if (UActorComponent* ObjAsActComp = Cast<UActorComponent>(Object))
 	{
-		return GetKeyValue(ObjAsActComp->ComponentTags, TagType, TagKey);
+		return GetValue(ObjAsActComp->ComponentTags, TagType, TagKey);
 	}
 	return FString();
+}
+
+FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey)
+{
+	return FTags::GetValue(Object, TagType, TagKey);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -676,7 +701,7 @@ TMap<FString, FString> FTags::GetKeyValuePairs(UObject* Object, const FString& T
 
 ///////////////////////////////////////////////////////////////////////////
 // Get all objects (actor and actor components) to tag key value pairs from world
-TMap<UObject*, TMap<FString, FString>> FTags::GetObjectsToKeyValuePairs(UWorld* World, const FString& TagType)
+TMap<UObject*, TMap<FString, FString>> FTags::GetObjectKeyValuePairsMap(UWorld* World, const FString& TagType)
 {
 	// Map of actors to their tag properties
 	TMap<UObject*, TMap<FString, FString>> ObjectToTagProperties;
@@ -704,6 +729,11 @@ TMap<UObject*, TMap<FString, FString>> FTags::GetObjectsToKeyValuePairs(UWorld* 
 		}
 	}
 	return ObjectToTagProperties;
+}
+
+TMap<UObject*, TMap<FString, FString>> FTags::GetObjectsToKeyValuePairs(UWorld* World, const FString& TagType)
+{
+	return FTags::GetObjectKeyValuePairsMap(World, TagType);
 }
 
 // Get all actors to tag key value pairs from world

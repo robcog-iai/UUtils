@@ -6,6 +6,29 @@
 #include "EngineUtils.h"
 #include "Tags.generated.h"
 
+//typedef TMap< UObject*, TArray<UObject*> > ObjectReferenceGraph;
+//typedef TMap<UObject*, int32> ReferenceTreeMap;
+//typedef TMap<UObject*, FString> ObjectNameMap;
+typedef TMap<UObject*, FTagData> ObjectTagDataMap;
+typedef TMap<AActor*, FTagData> ActorTagDataMap;
+typedef TMap<UActorComponent*, FTagData> ComponentTagDataMap;
+
+/*
+* FTagData - the structure of the tag data
+* TagType;Key1,Value1;Key2,Value2;[..]
+*/
+USTRUCT()
+struct FTagData
+{
+	GENERATED_USTRUCT_BODY()
+
+	// Tag type
+	FString TagType;
+
+	// Key-Value map
+	TMap<FString, FString> KeyValueMap;
+};
+
 /**
 * Helper functions for manipulating tags with key value pairs
 *
@@ -87,20 +110,29 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	// Get tag key value from tag
+	static FString GetValue(const FName& InTag, const FString& TagKey);
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
 	static FString GetKeyValue(const FName& InTag, const FString& TagKey);
 
 	// Get tag key value from tag array
+	static FString GetValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey);
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
 	static FString GetKeyValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey);
-
+	
 	// Get tag key value from actor
+	static FString GetValue(AActor* Actor, const FString& TagType, const FString& TagKey);
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
 	static FString GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey);
 
 	// Get tag key value from component
+	static FString GetValue(UActorComponent* Component, const FString& TagType, const FString& TagKey);
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
 	static FString GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey);
-
+	
 	// Get tag key value from object
+	static FString GetValue(UObject* Object, const FString& TagType, const FString& TagKey);
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
 	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag key value to tag, if bReplaceExisting is true, replace existing value
@@ -191,6 +223,8 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	// Get all objects (actor and actor components) to tag key value pairs from world
+	static TMap<UObject*, TMap<FString, FString>> GetObjectKeyValuePairsMap(UWorld* World, const FString& TagType);
+	DEPRECATED(4.19, "GetObjectsToKeyValuePairs is deprecated.  Use GetObjectKeyValuePairsMap instead")
 	static TMap<UObject*, TMap<FString, FString>> GetObjectsToKeyValuePairs(UWorld* World, const FString& TagType);
 
 	// Get all actors to tag key value pairs from world
@@ -242,4 +276,8 @@ struct UTAGS_API FTags
 
 	// Gets all components with the key value pair
 	static TSet<UActorComponent*> GetComponentSetWithKeyValuePair(UWorld* World, const FString& TagType, const FString& TagKey, const FString& TagValue);
+
+	///////////////////////////////////////////////////////////
+	// Get all valid tag data from world
+	static TArray<FTagData> GetWorldTagData;
 };
