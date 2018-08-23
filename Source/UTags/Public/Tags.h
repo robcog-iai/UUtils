@@ -111,27 +111,27 @@ struct UTAGS_API FTags
 	///////////////////////////////////////////////////////////////////////////
 	// Get tag key value from tag
 	static FString GetValue(const FName& InTag, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
 	static FString GetKeyValue(const FName& InTag, const FString& TagKey);
 
 	// Get tag key value from tag array
 	static FString GetValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
 	static FString GetKeyValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey);
 	
 	// Get tag key value from actor
 	static FString GetValue(AActor* Actor, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
 	static FString GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey);
 
 	// Get tag key value from component
 	static FString GetValue(UActorComponent* Component, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
 	static FString GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey);
 	
 	// Get tag key value from object
 	static FString GetValue(UObject* Object, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetVal instead")
+	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
 	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
 
 	///////////////////////////////////////////////////////////////////////////
@@ -235,6 +235,9 @@ struct UTAGS_API FTags
 
 
 	/////////////////////////////////////////////////////////////////////////
+	// Get all objects unique id (actor and actor components) to tag key value
+	static TMap<uint32, FString> GetObjectsIdToKeyValue(UWorld* World, const FString& TagType, const FString& TagKey);
+
 	// Get all objects (actor and actor components) to tag key value
 	static TMap<UObject*, FString> GetObjectsToKeyValue(UWorld* World, const FString& TagType, const FString& TagKey);
 
