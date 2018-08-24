@@ -779,7 +779,7 @@ TMap<UActorComponent*, TMap<FString, FString>> FTags::GetComponentsToKeyValuePai
 
 /////////////////////////////////////////////////////////////////////////
 // Get all objects unique id (actor and actor components) to tag key value
-TMap<uint32, FString> GetObjectsIdToKeyValue(UWorld* World, const FString& TagType, const FString& TagKey)
+TMap<uint32, FString> FTags::GetObjectsIdToKeyValue(UWorld* World, const FString& TagType, const FString& TagKey)
 {
 	// Map of actors to their tag properties
 	TMap<uint32, FString> ObjectsIdToKeyValue;
