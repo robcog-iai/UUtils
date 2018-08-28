@@ -2,6 +2,7 @@
 #include "SUtagsListWidget.h"
 
 
+
 #define LOCTEXT_NAMESPACE "SUtagsListWidget"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -12,10 +13,15 @@ void SUtagsListWidget::Construct(const FArguments& Args)
 	const FString ButtonFString("Add New Item To List");
 	const FText ButtonFText = FText::FromString(ButtonFString);
 
-	TSharedRef<SScrollBar> ScrollBar = SNew(SScrollBar) //Todod 
+	
+	FTags::GetAllActorsWithTagContent(GEditor->GetEditorWorldContext().World());
+
+	TSharedRef<SScrollBar> ScrollBar = SNew(SScrollBar) //Todo
 		.Orientation(EOrientation::Orient_Vertical)
 		.Visibility(EVisibility::Visible)
 		.AlwaysShowScrollbar(true);
+
+	
 
 	ChildSlot
 		[

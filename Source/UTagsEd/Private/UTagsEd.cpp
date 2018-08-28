@@ -7,6 +7,7 @@
 
 void FUTagsEdModule::StartupModule()
 {
+	//FModuleManager::Get().LoadModule(TEXT("UTags"));
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	FEditorModeRegistry::Get().RegisterMode<FUTagsEdMode>(FUTagsEdMode::EM_UTagsEdModeId, LOCTEXT("UTagsEdModeName", "UTagsEdMode"), FSlateIcon(), true);
 }

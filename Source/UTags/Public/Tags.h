@@ -112,9 +112,11 @@ struct UTAGS_API FTags
 	// Get tag key value from object
 	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
 
+	
+
 	///////////////////////////////////////////////////////////////////////////
 	//Get All Actors
-	static TMap<TWeakObjectPtr<AActor*>, FTagsData> GetAllActorsWithTagContent();
+	static TMap<TWeakObjectPtr<AActor>, FTagsData> GetAllActorsWithTagContent(UWorld * World);
 	// Get All Actors Names
 	static TArray<FString> GetAllActorsNames();
 

@@ -2,7 +2,12 @@
 
 #include "SlateBasics.h"
 #include "SSearchBox.h"
-//#include "SUtagsDetailsTreeWidget.h"
+
+#include "UTags/Public/UTags.h"
+#include "UTags/Public/Tags.h"
+#include "LevelEditor.h"
+#include "Runtime/Engine/Classes/Engine/Engine.h"
+
 class SUtagsListWidget : public SCompoundWidget
 {
 public:
