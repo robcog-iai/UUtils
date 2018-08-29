@@ -317,18 +317,39 @@ FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FStrin
 	return FString();
 }
 
-TMap<TWeakObjectPtr<AActor>, FTagsData> FTags::GetAllActorsWithTagContent(UWorld* World)
-{
+TMap<TWeakObjectPtr<AActor>, TArray<FTagsData>> FTags::GetAllActorsWithTagContent(UWorld* World)
+{ 
 	//Declaring our data type
-	TMap<TWeakObjectPtr<AActor>, FTagsData> ActorsAndTagsMap;
+	TMap<TWeakObjectPtr<AActor>, TArray<FTagsData>> ActorsAndTagsMap;
 	//Iterate Actors from World
 	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
 	{
 		//Get an Actor's Weak Pointers
 		TWeakObjectPtr<AActor> WeakActorPtr = *ActorItr;
 		TArray<FName> ActorTags = WeakActorPtr->Tags;
-		//TODO Iterate over Tags. When Tags not empty split in TagType + Key/Value
-		
+		TArray<FTagsData> ActorTagsData;
+
+		for (FName Tag : ActorTags)
+		{
+			FString TagString = Tag.ToString();
+
+			//ActorTagsData = GetActorsTagsData(ActorItr, Tag); NEXT STEP .. NEW METHOD
+
+			 if ( !TagString.IsEmpty() )
+			{
+				 FString TagType, KeyValuePairs;
+				 TagString.Split(TEXT(";"), &TagType, &KeyValuePairs);
+
+				 FTagsData IndividualTagData;
+				 IndividualTagData.TagType = TagType;
+				 IndividualTagData.KeyValueMap = GetKeyValuePairs(*ActorItr, TagType);
+
+				 ActorTagsData.Add(IndividualTagData);				
+			}
+		ActorsAndTagsMap.Add(WeakActorPtr, ActorTagsData);
+		}
+
+
 		if(WeakActorPtr.IsValid())
 		{
 			//Prepare FTags Data
@@ -340,9 +361,6 @@ TMap<TWeakObjectPtr<AActor>, FTagsData> FTags::GetAllActorsWithTagContent(UWorld
 			}
 		}
 	}
-
-
-	//Folosim un Iterator
 	return ActorsAndTagsMap;
 }
 

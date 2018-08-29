@@ -116,7 +116,7 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	//Get All Actors
-	static TMap<TWeakObjectPtr<AActor>, FTagsData> GetAllActorsWithTagContent(UWorld * World);
+	static TMap<TWeakObjectPtr<AActor>, TArray<FTagsData>> GetAllActorsWithTagContent(UWorld * World);
 	// Get All Actors Names
 	static TArray<FString> GetAllActorsNames();
 

@@ -17,7 +17,7 @@
     {
       "Name": "UTags",
       "Type": "Developer",
-      "LoadingPhase": "PreEarlyLoadingScreen"
+      "LoadingPhase": "Default"
     },
     {
       "Name": "UIds",
