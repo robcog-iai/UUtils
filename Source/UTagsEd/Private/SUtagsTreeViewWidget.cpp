@@ -9,9 +9,6 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SUtagsTreeViewWidget::Construct(const FArguments & Args)
 {
 	// Data Aquisition
-	TMap<UObject*, TMap<FString, FString>> ObjectMap;
-	TMap<FString, AActor*> ActorsMap;
-	ActorsMap =FTags::GetKeyValuesToActor(GEngine->GetWorld(), "SemLog", "Id");
 
 
 	// UI Implementation

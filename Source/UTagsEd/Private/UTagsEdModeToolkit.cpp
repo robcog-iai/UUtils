@@ -62,7 +62,6 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 				.OnClicked_Static(&Locals::OnButtonClick, InOffset);
 		}
 
-
 	};
 
 	const float Factor = 256.0f;
@@ -108,9 +107,14 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 		.AutoHeight()
 		[
 			SAssignNew(SUtagsListWidgetRef, SUtagsListWidget)
-		//	SNew (SListView)
-
 		]
+	/*+ SVerticalBox::Slot()
+		.HAlign(HAlign_Fill)
+		.VAlign(VAlign_Fill)
+		.AutoHeight()
+		[
+			SAssignNew(SUtagsListWidgetRef, SUtagsTreeViewWidget)
+		]*/
 
 		];
 		

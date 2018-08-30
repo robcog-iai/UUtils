@@ -23,6 +23,9 @@ public:
 
 	// Reference to the SUTagsListWidget class Slate UI.
 	TSharedPtr<class SUtagsListWidget> SUtagsListWidgetRef;
+	// Reference to the SUtagsTreeViewWidget class Slate UI.
+	TSharedPtr<class SUtagsTreeViewWidget> SUtagsTreeViewWidget;
+
 private:
 	
 	TSharedPtr<SWidget> ToolkitWidget;
