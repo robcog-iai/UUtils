@@ -9,7 +9,7 @@
 
 
 USTRUCT()
-struct  FTagsData 
+struct  FTagData 
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -116,9 +116,10 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	//Get All Actors
-	static TMap<TWeakObjectPtr<AActor>, TArray<FTagsData>> GetAllActorsWithTagContent(UWorld * World);
-	// Get All Actors Names
-	static TArray<FString> GetAllActorsNames();
+	static TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> GetAllActorsWithTagContent(UWorld * World);
+	// Get All Tags for an Actor spited
+	static TArray<FTagData> GetObjectTagsData(TArray<FName> TagsData, UObject* ObjectOfActorOrComponent);
+	
 
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag key value to tag, if bReplaceExisting is true, replace existing value

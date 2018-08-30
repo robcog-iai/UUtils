@@ -317,53 +317,69 @@ FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FStrin
 	return FString();
 }
 
-TMap<TWeakObjectPtr<AActor>, TArray<FTagsData>> FTags::GetAllActorsWithTagContent(UWorld* World)
+
+///////////////////////////////////////////////////////////////////////////
+// 
+TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> FTags::GetAllActorsWithTagContent(UWorld * World)
 { 
 	//Declaring our data type
-	TMap<TWeakObjectPtr<AActor>, TArray<FTagsData>> ActorsAndTagsMap;
+	TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndTagsMap;
 	//Iterate Actors from World
 	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
 	{
 		//Get an Actor's Weak Pointers
 		TWeakObjectPtr<AActor> WeakActorPtr = *ActorItr;
 		TArray<FName> ActorTags = WeakActorPtr->Tags;
-		TArray<FTagsData> ActorTagsData;
-
-		for (FName Tag : ActorTags)
-		{
-			FString TagString = Tag.ToString();
-
-			//ActorTagsData = GetActorsTagsData(ActorItr, Tag); NEXT STEP .. NEW METHOD
-
-			 if ( !TagString.IsEmpty() )
-			{
-				 FString TagType, KeyValuePairs;
-				 TagString.Split(TEXT(";"), &TagType, &KeyValuePairs);
-
-				 FTagsData IndividualTagData;
-				 IndividualTagData.TagType = TagType;
-				 IndividualTagData.KeyValueMap = GetKeyValuePairs(*ActorItr, TagType);
-
-				 ActorTagsData.Add(IndividualTagData);				
-			}
-		ActorsAndTagsMap.Add(WeakActorPtr, ActorTagsData);
-		}
-
-
+		TArray<FTagData> ActorTagsData;
 		if(WeakActorPtr.IsValid())
 		{
 			//Prepare FTags Data
-
+			if (ActorTags.GetData() != nullptr) {
+			ActorTagsData = GetObjectTagsData(ActorTags, *ActorItr);
+			ActorsAndTagsMap.Add(WeakActorPtr, ActorTagsData);
+			}
 			//Iterate Components Of The Actor
 			for (const auto& CompItr : ActorItr->GetComponents())
 			{
+				TWeakObjectPtr<UActorComponent> WeakComponentPtr = CompItr;	
+				TArray<FName> ComponentTags = CompItr->ComponentTags;
+				TArray<FTagData> ComponentTagsData;
 
+				if (WeakComponentPtr.IsValid())
+				{
+					if (ComponentTags.GetData() != nullptr) {
+						ComponentTagsData = GetObjectTagsData(ComponentTags, CompItr);
+						ActorsAndTagsMap.Add(WeakComponentPtr, ComponentTagsData);
+					}
+				}
 			}
 		}
 	}
 	return ActorsAndTagsMap;
 }
 
+TArray<FTagData> FTags::GetObjectTagsData(TArray<FName> TagsData, UObject* ObjectOfActorOrComponent)
+{
+	TArray<FTagData> ObjectsTagsData;
+
+	for (FName Tag : TagsData)
+	{
+		FString TagString = Tag.ToString();
+		if (!TagString.IsEmpty())
+		{
+			FString TagType, KeyValuePairs;
+			TagString.Split(TEXT(";"), &TagType, &KeyValuePairs);
+
+			FTagData IndividualTagData;
+			IndividualTagData.TagType = TagType;
+			IndividualTagData.KeyValueMap = GetKeyValuePairs(ObjectOfActorOrComponent, TagType);
+
+			ObjectsTagsData.Add(IndividualTagData);
+		}
+	}
+	return ObjectsTagsData;
+
+}
 ///////////////////////////////////////////////////////////////////////////
 // Add tag key value from tags, if bReplaceExisting is true, replace existing value
 bool FTags::AddKeyValuePair(FName& InTag, const FString& TagKey, const FString& TagValue, bool bReplaceExisting)
