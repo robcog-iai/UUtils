@@ -319,21 +319,20 @@ FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FStrin
 
 
 ///////////////////////////////////////////////////////////////////////////
-// 
-TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> FTags::GetAllActorsWithTagContent(UWorld * World)
+// Get all the tags from the all the actors in the world which includes the Tags of each actor's components
+TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> FTags::GetAllTagsFromWorldActors(UWorld * World)
 { 
-	//Declaring our data type
+	//Declaring our map data type that stores an object reference and all the tag related data in a defined struct
 	TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndTagsMap;
 	//Iterate Actors from World
 	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
 	{
-		//Get an Actor's Weak Pointers
 		TWeakObjectPtr<AActor> WeakActorPtr = *ActorItr;
 		TArray<FName> ActorTags = WeakActorPtr->Tags;
 		TArray<FTagData> ActorTagsData;
 		if(WeakActorPtr.IsValid())
 		{
-			//Prepare FTags Data
+			//Only add new tag data to valid weak pointer objects if they contain any tags
 			if (ActorTags.GetData() != nullptr) {
 			ActorTagsData = GetObjectTagsData(ActorTags, *ActorItr);
 			ActorsAndTagsMap.Add(WeakActorPtr, ActorTagsData);
@@ -358,6 +357,7 @@ TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> FTags::GetAllActorsWithTagConten
 	return ActorsAndTagsMap;
 }
 
+// Get all the Tags Data (TagType and Key/Values) from a given Object
 TArray<FTagData> FTags::GetObjectTagsData(TArray<FName> TagsData, UObject* ObjectOfActorOrComponent)
 {
 	TArray<FTagData> ObjectsTagsData;

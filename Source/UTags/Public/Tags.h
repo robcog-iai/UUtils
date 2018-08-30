@@ -115,9 +115,9 @@ struct UTAGS_API FTags
 	
 
 	///////////////////////////////////////////////////////////////////////////
-	//Get All Actors
-	static TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> GetAllActorsWithTagContent(UWorld * World);
-	// Get All Tags for an Actor spited
+	// Get all the tags from the all the actors in the world which includes the Tags of each actor's components
+	static TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> GetAllTagsFromWorldActors(UWorld * World);
+	// Get all the Tags Data (TagType and Key/Values) from a given Object
 	static TArray<FTagData> GetObjectTagsData(TArray<FName> TagsData, UObject* ObjectOfActorOrComponent);
 	
 
