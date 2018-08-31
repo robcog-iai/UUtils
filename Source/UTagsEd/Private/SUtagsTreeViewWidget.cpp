@@ -10,25 +10,27 @@ void SUtagsTreeViewWidget::Construct(const FArguments & Args)
 {
 	// Data Aquisition
 
+	//TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndTagsMap;
+	//ActorsAndTagsMap = FTags::GetAllTagsFromWorldActors(GEditor->GetEditorWorldContext().World());
 
 	// UI Implementation
-	//ChildSlot[
-	//	SNew(SBox)
-	//		//	.MaxDesiredHeight(ChildSlot) FOR SCROLLBAR WE MUST GET THE SIZE OF THE CHILDREN AND SET IT TO THE MAXIMUM OF THE WINDOW
-	//		[
-	//			SNew(SBorder)[
-	//				SNew(SOverlay)//TODO Incercam de data asta cu Overlay vedem dupa daca ii mai bun scrollbox
+	ChildSlot[
+		SNew(SBox)
+			//	.MaxDesiredHeight(ChildSlot) FOR SCROLLBAR WE MUST GET THE SIZE OF THE CHILDREN AND SET IT TO THE MAXIMUM OF THE WINDOW
+			[
+				SNew(SBorder)[
+					SNew(SOverlay)//TODO Incercam de data asta cu Overlay vedem dupa daca ii mai bun scrollbox
 
-	//					+ SOverlay::Slot()[//TODO Aici putem pune border color
-	//						SNew(SSearchBox)
-	//							.HintText(LOCTEXT("SearchBoxHint", "Search after object name"))
-	//							//.OnTextChanged(this, &SUtagsListWidget::HandleFilterStringTextChanged)
+						+ SOverlay::Slot()[//TODO Aici putem pune border color
+							SNew(SSearchBox)
+								.HintText(LOCTEXT("SearchBoxHint", "Search after object name"))
+								//.OnTextChanged(this, &SUtagsListWidget::HandleFilterStringTextChanged) //ToDo fImplement this
+						]
 
-	//					]
 
-
-	//			]
-	//		];
+				]
+			]
+		];
 
 
 }

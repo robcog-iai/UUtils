@@ -13,8 +13,6 @@ void SUtagsListWidget::Construct(const FArguments& Args)
 	const FString ButtonFString("Add New Item To List");
 	const FText ButtonFText = FText::FromString(ButtonFString);
 
-	//TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndTagsMap;
-	//ActorsAndTagsMap = FTags::GetAllTagsFromWorldActors(GEditor->GetEditorWorldContext().World());
 
 	TSharedRef<SScrollBar> ScrollBar = SNew(SScrollBar) //Todo
 		.Orientation(EOrientation::Orient_Vertical)

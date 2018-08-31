@@ -112,15 +112,6 @@ struct UTAGS_API FTags
 	// Get tag key value from object
 	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
 
-	
-
-	///////////////////////////////////////////////////////////////////////////
-	// Get all the tags from the all the actors in the world which includes the Tags of each actor's components
-	static TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> GetAllTagsFromWorldActors(UWorld * World);
-	// Get all the Tags Data (TagType and Key/Values) from a given Object
-	static TArray<FTagData> GetObjectTagsData(TArray<FName> TagsData, UObject* ObjectOfActorOrComponent);
-	
-
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag key value to tag, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePair(FName& InTag, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true);
@@ -261,4 +252,12 @@ struct UTAGS_API FTags
 
 	// Gets all components with the key value pair
 	static TSet<UActorComponent*> GetComponentSetWithKeyValuePair(UWorld* World, const FString& TagType, const FString& TagKey, const FString& TagValue);
+
+	///////////////////////////////////////////////////////////////////////////
+	// Get all the tags from the all the actors in the world which includes the Tags of each actor's components
+	static TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> GetWorldTagsData(UWorld * World);
+	// Get all the Tags Data (TagType and Key/Values) from a given Object
+	static TArray<FTagData> GetObjectTagsData(TArray<FName>& TagsData, UObject* ObjectOfActorOrComponent);
+
+
 };

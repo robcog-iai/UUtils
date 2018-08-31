@@ -108,13 +108,13 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 		[
 			SAssignNew(SUtagsListWidgetRef, SUtagsListWidget)
 		]
-	/*+ SVerticalBox::Slot()
+	+ SVerticalBox::Slot()
 		.HAlign(HAlign_Fill)
 		.VAlign(VAlign_Fill)
 		.AutoHeight()
 		[
-			SAssignNew(SUtagsListWidgetRef, SUtagsTreeViewWidget)
-		]*/
+			SAssignNew(SUtagsTreeViewWidgetRef, SUtagsTreeViewWidget)
+		]
 
 		];
 		
