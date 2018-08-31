@@ -11,7 +11,7 @@ public class UTags : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"UTags/Public"
+				//"UTags/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -19,7 +19,7 @@ public class UTags : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"UTags/Private",
+				//"UTags/Private",
 				// ... add other private include paths required here ...
 			}
 			);

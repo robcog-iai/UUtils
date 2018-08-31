@@ -11,7 +11,7 @@ public class UIds : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"UIds/Public"
+				//"UIds/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -19,7 +19,7 @@ public class UIds : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"UIds/Private",
+				//"UIds/Private",
 				// ... add other private include paths required here ...
 			}
 			);
