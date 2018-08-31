@@ -6,17 +6,17 @@
 #include "EngineUtils.h"
 #include "Tags.generated.h"
 
-/*
-* FTagData - the structure of the tag data
-* TagType;Key1,Value1;Key2,Value2;[..]
-*/
+
+
 USTRUCT()
-struct FTagData
+struct  FTagData 
 {
 	GENERATED_USTRUCT_BODY()
 
-	// Tag type
 	FString TagType;
+
+	TMap<FString, FString> KeyValueMap;
+};
 
 	// Key-Value map
 	TMap<FString, FString> KeyValueMap;
@@ -280,7 +280,11 @@ struct UTAGS_API FTags
 	// Gets all components with the key value pair
 	static TSet<UActorComponent*> GetComponentSetWithKeyValuePair(UWorld* World, const FString& TagType, const FString& TagKey, const FString& TagValue);
 
-	///////////////////////////////////////////////////////////
-	// Get all valid tag data from world
-	static TArray<FTagData> GetWorldTagData;
+	///////////////////////////////////////////////////////////////////////////
+	// Get all the tags from the all the actors in the world which includes the Tags of each actor's components
+	static TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> GetWorldTagsData(UWorld * World);
+	// Get all the Tags Data (TagType and Key/Values) from a given Object
+	static TArray<FTagData> GetObjectTagsData(TArray<FName>& TagsData, UObject* ObjectOfActorOrComponent);
+
+
 };
