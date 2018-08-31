@@ -18,9 +18,6 @@ struct  FTagData
 	TMap<FString, FString> KeyValueMap;
 };
 
-	// Key-Value map
-	TMap<FString, FString> KeyValueMap;
-};
 
 /**
 * Helper functions for manipulating tags with key value pairs
