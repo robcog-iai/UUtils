@@ -1050,3 +1050,68 @@ TSet<UActorComponent*> FTags::GetComponentSetWithKeyValuePair(UWorld* World, con
 	}
 	return ComponentsWithTag;
 }
+
+
+///////////////////////////////////////////////////////////////////////////
+// Get all the tags from the all the actors in the world which includes the Tags of each actor's components
+TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> FTags::GetWorldTagsData(UWorld * World)
+{
+	//Declaring our map data type that stores an object reference and all the tag related data in a defined struct
+	TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> WorldTagsData;
+	//Iterate Actors from World
+	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
+	{
+		TWeakObjectPtr<AActor> WeakActorPtr = *ActorItr;
+		TArray<FName> ActorTags = WeakActorPtr->Tags;
+		TArray<FTagData> ActorTagsData;
+		if (WeakActorPtr.IsValid())
+		{
+			//Only add new tag data to valid weak pointer objects if they contain any tags
+			if (ActorTags.GetData() != nullptr)
+			{
+				ActorTagsData = GetObjectTagsData(ActorTags, *ActorItr);
+				WorldTagsData.Add(WeakActorPtr, ActorTagsData);
+			}
+			//Iterate Components Of The Actor
+			for (const auto& CompItr : ActorItr->GetComponents())
+			{
+				TWeakObjectPtr<UActorComponent> WeakComponentPtr = CompItr;
+				TArray<FName> ComponentTags = CompItr->ComponentTags;
+				TArray<FTagData> ComponentTagsData;
+
+				if (WeakComponentPtr.IsValid())
+				{
+					if (ComponentTags.GetData() != nullptr) {
+						ComponentTagsData = GetObjectTagsData(ComponentTags, CompItr);
+						WorldTagsData.Add(WeakComponentPtr, ComponentTagsData);
+					}
+				}
+			}
+		}
+	}
+	return WorldTagsData;
+}
+
+// Get all the Tags Data (TagType and Key/Values) from a given Object
+TArray<FTagData> FTags::GetObjectTagsData(TArray<FName>& InTags, UObject* ObjectOfActorOrComponent)
+{
+	TArray<FTagData> ObjectsTagsData;
+
+	for (FName Tag : InTags)
+	{
+		FString TagString = Tag.ToString();
+		if (!TagString.IsEmpty())
+		{
+			FString TagType, KeyValuePairs;
+			TagString.Split(TEXT(";"), &TagType, &KeyValuePairs);
+
+			FTagData IndividualTagData;
+			IndividualTagData.TagType = TagType;
+			IndividualTagData.KeyValueMap = FTags::GetKeyValuePairs(ObjectOfActorOrComponent, TagType);
+
+			ObjectsTagsData.Add(IndividualTagData);
+		}
+	}
+	return ObjectsTagsData;
+
+}
