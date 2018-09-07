@@ -17,6 +17,9 @@ struct UIDS_API FIds
 {
 	GENERATED_BODY()
 
+	//////////////////////////////////////////////////////////////////////////
+	// UUID Functions
+
 	// Encodes GUID to Base64
 	static FString GuidToBase64(FGuid InGuid)
 	{		
@@ -99,5 +102,71 @@ struct UIDS_API FIds
 		Base64.ReplaceInline(TEXT("-"), TEXT("+"), ESearchCase::CaseSensitive);
 		Base64.ReplaceInline(TEXT("_"), TEXT("/"), ESearchCase::CaseSensitive);
 		return Base64;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Pairing functions
+
+	// Encode to 64 bit pair
+	// https://stackoverflow.com/questions/26222273/is-there-a-better-implementation-for-keeping-a-count-for-unique-integer-pairs
+	static uint64 PairEncodeShift(uint32 X, uint32 Y)
+	{
+		return 0;
+		// TODO TEST
+		//uint64 A = X + Y;
+		//uint64 B = abs((int32)(X - Y));
+		//return (uint64)(A << 32) | (B);
+	}
+
+	// Decode from 64 bit pair
+	static void PairDecodeShift(uint64 InP, uint32& OutX, uint32& OutY)
+	{
+		// TODO TEST
+		//OutX = InP >> 32;
+		//OutY = InP & 0xFFFFFFFF;
+	}
+
+
+	// Encode to cantor pair (if order is ignored the small number will alway be X)
+	// https://en.wikipedia.org/wiki/Pairing_function
+	static uint64 PairEncodeCantor(uint32 X, uint32 Y)
+	{
+		return (uint64)(0.5*(X + Y)*(X + Y + 1) + Y);
+	}
+
+	// Decode to cantor pair 
+	static void PairDecodeCantor(uint64 InP, uint32& OutX, uint32& OutY)
+	{
+		uint32 W = floor(((sqrt((InP * 8) + 1)) - 1) / 2);
+		uint32 T = (W*(W + 1)) / 2;
+		OutY = InP - T;
+		OutX = W - OutY;
+	}
+
+	// Encode to Szudzik pair (if order is ignored the small number will alway be X)
+	// http://szudzik.com/ElegantPairing.pdf
+	static uint64 PairEncodeSzudzik(uint32 X, uint32 Y)
+	{
+		return 0;
+		// TODO TEST
+		//return X < Y ? (uint64)(Y*Y+X) : (uint64)(X*X+X+Y);
+	}
+
+	// Encode to Szudzik pair
+	static void PairDecodeSzudzik(uint64 InP, uint32& OutX, uint32& OutY)
+	{
+		// TODO TEST
+		//uint32 Q = floor(sqrt(InP));
+		//uint32 L = InP - Q ^ 2;
+		//if (Q < L)
+		//{
+		//	OutX = Q;
+		//	OutY = L;
+		//}
+		//else
+		//{
+		//	OutX = Q;
+		//	OutY = L - Q;
+		//}
 	}
 };
