@@ -5,10 +5,10 @@
 #include "Engine.h"
 #include "Tags.h"
 //use SNullWidget when you need a placeholder
-class SUtagsTreeViewWidget : public SCompoundWidget
+class SUTagsTreeViewWidget : public SCompoundWidget
 {
 public:
-	SLATE_BEGIN_ARGS(SUtagsTreeViewWidget) {}
+	SLATE_BEGIN_ARGS(SUTagsTreeViewWidget) {}
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& Args);

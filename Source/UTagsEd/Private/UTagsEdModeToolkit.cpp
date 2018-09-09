@@ -113,7 +113,7 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 		.VAlign(VAlign_Fill)
 		.AutoHeight()
 		[
-			SAssignNew(SUtagsTreeViewWidgetRef, SUtagsTreeViewWidget)
+			SAssignNew(SUtagsTreeViewWidgetRef, SUTagsTreeViewWidget)
 		]
 
 		];

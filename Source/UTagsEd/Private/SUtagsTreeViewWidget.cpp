@@ -1,12 +1,12 @@
-#include "SUtagsTreeViewWidget.h"
+#include "SUTagsTreeViewWidget.h"
 
 
 
-#define LOCTEXT_NAMESPACE "SUtagsListWidget"
+#define LOCTEXT_NAMESPACE "SUTagsTreeWidget"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
-void SUtagsTreeViewWidget::Construct(const FArguments & Args)
+void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 {
 	// Data Aquisition
 
@@ -45,7 +45,7 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 /**
  * 
  */
-TSharedRef<ITableRow> SUtagsTreeViewWidget::OnGenerateRowForNameList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
+TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForNameList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
 	//Create the row
 	return
