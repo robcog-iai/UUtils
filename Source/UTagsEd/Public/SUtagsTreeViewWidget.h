@@ -12,9 +12,8 @@ public:
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& Args);
-
-	/*--Object Name and Tag Lists and their generation */ 
-	SListView<TSharedPtr<FString>> GenerateObjectNameList();
+	/**Todo delete Temporary button to manually add items to the tree*/
+	FReply ButtonPressed();
 	/** Generate each row for the name list */
 	TSharedRef<ITableRow> OnGenerateRowForNameList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable);
 private:

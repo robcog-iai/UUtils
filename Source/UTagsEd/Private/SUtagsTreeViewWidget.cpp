@@ -37,9 +37,9 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 									.Text(ButtonFText)
 								.OnClicked(this, &SUTagsTreeViewWidget::ButtonPressed)
 								]
-							+ SScrollBox::Slot()[
+							/*+ SScrollBox::Slot()[
 
-							]
+							]*/
 
 
 				]
@@ -51,14 +51,12 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
-//--Object Name and Tag Lists and their generation
-//SListView<TSharedPtr<FString>> SUtagsTreeViewWidget::GenerateObjectNameList()
-//{
-//	return  TABEL NOU;
-//}
-/**
- * 
- */
+FReply SUTagsTreeViewWidget::ButtonPressed()
+{
+
+	return FReply::Handled();
+}
+
 TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForNameList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
 	//Create the row
