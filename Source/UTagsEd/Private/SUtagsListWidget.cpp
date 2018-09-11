@@ -14,7 +14,7 @@ void SUtagsListWidget::Construct(const FArguments& Args)
 	const FText ButtonFText = FText::FromString(ButtonFString);
 
 
-	TSharedRef<SScrollBar> ScrollBar = SNew(SScrollBar) //Todo
+	TSharedRef<SScrollBar> ScrollBar = SNew(SScrollBar) //Todo implement after repo example
 		.Orientation(EOrientation::Orient_Vertical)
 		.Visibility(EVisibility::Visible)
 		.AlwaysShowScrollbar(true);

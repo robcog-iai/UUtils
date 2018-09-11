@@ -17,6 +17,7 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 	const FString ButtonFString("Add New Item To Tree");
 	const FText ButtonFText = FText::FromString(ButtonFString);
 
+	TreeItemHeight = 16.0f;
 
 	// UI Implementation
 	ChildSlot[
@@ -37,9 +38,17 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 									.Text(ButtonFText)
 								.OnClicked(this, &SUTagsTreeViewWidget::ButtonPressed)
 								]
-							/*+ SScrollBox::Slot()[
+							+ SScrollBox::Slot()[
 
-							]*/
+								SNew( STreeView<TSharedPtr<FString>>)
+								.ItemHeight(TreeItemHeight)
+								.TreeItemsSource(&ItemsFirstColumn)
+								.OnGenerateRow_Raw(this, &SUTagsTreeViewWidget::OnGenerateRowForTree)
+								
+									//.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
+								
+
+							]
 
 
 				]
@@ -57,7 +66,7 @@ FReply SUTagsTreeViewWidget::ButtonPressed()
 	return FReply::Handled();
 }
 
-TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForNameList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
+TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
 	//Create the row
 	return
@@ -65,8 +74,14 @@ TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForNameList(TSharedPtr<
 		.Padding(2.0f)
 
 		[
-			SNew(STextBlock).Text(FText::FromString(*Item.Get()))
+			SNew(STextBlock)
+			.Text(FText::FromString(*Item.Get()))
 		];
+}
+
+void SUTagsTreeViewWidget::OnGetChildrenForTree(TSharedPtr<FString> Item, TArray< TSharedRef<FString>>& OutChildren)
+{
+
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -4,6 +4,7 @@
 #include "SSearchBox.h"
 #include "Engine.h"
 #include "Tags.h"
+#include "SUTagsTreeView.h"
 //use SNullWidget when you need a placeholder
 class SUTagsTreeViewWidget : public SCompoundWidget
 {
@@ -15,9 +16,16 @@ public:
 	/**Todo delete Temporary button to manually add items to the tree*/
 	FReply ButtonPressed();
 	/** Generate each row for the name list */
-	TSharedRef<ITableRow> OnGenerateRowForNameList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable);
-private:
+	TSharedRef<ITableRow> OnGenerateRowForTree(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable);
+	/** Generate Children*/
+	void OnGetChildrenForTree(TSharedPtr<FString> Item, TArray< TSharedRef<FString>>& OutChildren);
 
+private:
+	TSharedPtr<SUTagsTreeView> UTagsTree;
+	/**Tree View List Item Height Todo? : UProperty*/
+	float TreeItemHeight;
+
+	TArray<TSharedPtr<FString>> ItemsFirstColumn;
 
 };
-
+//STreeView< TSharedPtr<struct FUTagsItem>> Todo make with your own struct
