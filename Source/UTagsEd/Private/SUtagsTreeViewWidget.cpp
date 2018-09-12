@@ -40,12 +40,11 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 								]
 							+ SScrollBox::Slot()[
 
-								SNew( STreeView<TSharedPtr<FString>>)
+								SAssignNew(UTagsTree, SUTagsTreeView)
 								.ItemHeight(TreeItemHeight)
 								.TreeItemsSource(&ItemsFirstColumn)
 								.OnGenerateRow_Raw(this, &SUTagsTreeViewWidget::OnGenerateRowForTree)
-								
-									//.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
+//								.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
 								
 
 							]
@@ -62,7 +61,7 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 FReply SUTagsTreeViewWidget::ButtonPressed()
 {
-
+	ItemsFirstColumn.Add(MakeShareable(new FString("Test Tree Object Name")));
 	return FReply::Handled();
 }
 
@@ -81,7 +80,7 @@ TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedPtr<FStr
 
 void SUTagsTreeViewWidget::OnGetChildrenForTree(TSharedPtr<FString> Item, TArray< TSharedRef<FString>>& OutChildren)
 {
-
+	//OutChildren = nullptr;
 }
 
 #undef LOCTEXT_NAMESPACE

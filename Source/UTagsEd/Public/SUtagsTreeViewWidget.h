@@ -18,7 +18,7 @@ public:
 	/** Generate each row for the name list */
 	TSharedRef<ITableRow> OnGenerateRowForTree(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable);
 	/** Generate Children*/
-	void OnGetChildrenForTree(TSharedPtr<FString> Item, TArray< TSharedRef<FString>>& OutChildren);
+	void OnGetChildrenForTree(class TSharedPtr<FString> Item, TArray< TSharedRef<FString>>& OutChildren);
 
 private:
 	TSharedPtr<SUTagsTreeView> UTagsTree;
