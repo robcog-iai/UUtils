@@ -43,8 +43,8 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 								SAssignNew(UTagsTree, SUTagsTreeView)
 								.ItemHeight(TreeItemHeight)
 								.TreeItemsSource(&ItemsFirstColumn)
-								.OnGenerateRow_Raw(this, &SUTagsTreeViewWidget::OnGenerateRowForTree)
-//								.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
+								.OnGenerateRow(this, &SUTagsTreeViewWidget::OnGenerateRowForTree)
+								.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
 								
 
 							]
@@ -61,12 +61,13 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 FReply SUTagsTreeViewWidget::ButtonPressed()
 {
-	ItemsFirstColumn.Add(MakeShareable(new FString("Test Tree Object Name")));
+	//ItemsFirstColumn.Add(MakeShareable(new UTreeViewItem()));
 	return FReply::Handled();
 }
 
-TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
+TSharedRef<class ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(UTreeViewItem* Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
+//	FString DisplayString = 
 	//Create the row
 	return
 		SNew(STableRow< TSharedPtr<FString> >, OwnerTable)
@@ -74,11 +75,12 @@ TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedPtr<FStr
 
 		[
 			SNew(STextBlock)
-			.Text(FText::FromString(*Item.Get()))
+			.Text(LOCTEXT("Your Key", "Your Text"))
+		
 		];
 }
 
-void SUTagsTreeViewWidget::OnGetChildrenForTree(TSharedPtr<FString> Item, TArray< TSharedRef<FString>>& OutChildren)
+void SUTagsTreeViewWidget::OnGetChildrenForTree(class UTreeViewItem* Item, TArray< UTreeViewItem*>& OutChildren)
 {
 	//OutChildren = nullptr;
 }

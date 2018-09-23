@@ -5,7 +5,16 @@
 #include "Engine.h"
 #include "Tags.h"
 #include "SUTagsTreeView.h"
+#include "UTreeViewItem.h"
 //use SNullWidget when you need a placeholder
+
+#include "CoreMinimal.h"
+#include "EngineUtils.h"
+#include "UObject/ObjectMacros.h"
+
+
+
+
 class SUTagsTreeViewWidget : public SCompoundWidget
 {
 public:
@@ -16,16 +25,16 @@ public:
 	/**Todo delete Temporary button to manually add items to the tree*/
 	FReply ButtonPressed();
 	/** Generate each row for the name list */
-	TSharedRef<ITableRow> OnGenerateRowForTree(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable);
+	TSharedRef<class ITableRow> OnGenerateRowForTree(class UTreeViewItem* Item, const TSharedRef<STableViewBase>& OwnerTable);
 	/** Generate Children*/
-	void OnGetChildrenForTree(class TSharedPtr<FString> Item, TArray< TSharedRef<FString>>& OutChildren);
+	void OnGetChildrenForTree(class UTreeViewItem* Item, TArray< UTreeViewItem*>& OutChildren);
 
 private:
 	TSharedPtr<SUTagsTreeView> UTagsTree;
 	/**Tree View List Item Height Todo? : UProperty*/
 	float TreeItemHeight;
 
-	TArray<TSharedPtr<FString>> ItemsFirstColumn;
+	TArray<UTreeViewItem*> ItemsFirstColumn;
 
 };
 //STreeView< TSharedPtr<struct FUTagsItem>> Todo make with your own struct
