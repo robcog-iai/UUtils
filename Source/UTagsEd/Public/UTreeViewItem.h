@@ -12,8 +12,13 @@ public:
 	//methods
 	UTreeViewItem(const FObjectInitializer& ObjectInitializer);
 
+	UTreeViewItem(const FString & InObjectName);
+
 
 public:
 	//properties
+	UPROPERTY(Transient)
+		FString ObjectName;
+
 
 };

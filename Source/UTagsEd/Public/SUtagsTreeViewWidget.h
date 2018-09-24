@@ -2,6 +2,7 @@
 
 #include "SlateBasics.h"
 #include "SSearchBox.h"
+//#include "SProjectViewItem.h"
 #include "Engine.h"
 #include "Tags.h"
 #include "SUTagsTreeView.h"

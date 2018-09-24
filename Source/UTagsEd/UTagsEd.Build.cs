@@ -37,14 +37,14 @@ public class UTagsEd : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"CoreUObject",
-				"Engine",
-				"Slate",
-				"SlateCore",
-				"InputCore",
-				"UnrealEd",
-				"LevelEditor",
-				// ... add private dependencies that you statically link with here ...	
+                "CoreUObject",
+                "Engine",
+                "Slate",
+                "SlateCore",
+                "InputCore",
+                "UnrealEd",
+                "LevelEditor",
+				// Todo : Remove dependencies that are useless
 			}
 			);
 		

@@ -62,6 +62,11 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 FReply SUTagsTreeViewWidget::ButtonPressed()
 {
 	//ItemsFirstColumn.Add(MakeShareable(new UTreeViewItem()));
+	FString TheFString =  FString(TEXT("This is my test FString."));
+	UTreeViewItem NewItem(TheFString);
+	//NewItem.ObjectName = new FString("Test Name Object");
+
+	ItemsFirstColumn.Add(&NewItem);
 	return FReply::Handled();
 }
 
@@ -70,12 +75,14 @@ TSharedRef<class ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(UTreeView
 //	FString DisplayString = 
 	//Create the row
 	return
-		SNew(STableRow< TSharedPtr<FString> >, OwnerTable)
+		SNew(STableRow< UTreeViewItem* >, OwnerTable)
 		.Padding(2.0f)
 
 		[
 			SNew(STextBlock)
-			.Text(LOCTEXT("Your Key", "Your Text"))
+			//.TreeItem(Item)
+			.Text(FText::FromString(Item->ObjectName))
+		
 		
 		];
 }
