@@ -11,7 +11,6 @@ public class UTags : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				//"UTags/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -19,7 +18,6 @@ public class UTags : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				//"UTags/Private",
 				// ... add other private include paths required here ...
 			}
 			);
@@ -29,6 +27,7 @@ public class UTags : ModuleRules
 			new string[]
 			{
 				"Core",
+				"Engine",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -37,8 +36,7 @@ public class UTags : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"CoreUObject",
-				"Engine",
+				"CoreUObject",				
 				"Slate",
 				"SlateCore",
 				// ... add private dependencies that you statically link with here ...	
