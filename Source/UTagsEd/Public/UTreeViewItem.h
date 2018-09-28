@@ -8,17 +8,31 @@ UCLASS()
 class UTreeViewItem : public UObject
 {
 	GENERATED_BODY ()
-public:
-	//methods
-	UTreeViewItem(const FObjectInitializer& ObjectInitializer);
-
-	UTreeViewItem(const FString & InObjectName);
-
 
 public:
 	//properties
 	UPROPERTY(Transient)
 		FString ObjectName;
 
+public:
+	//methods
+	UTreeViewItem(const FObjectInitializer& ObjectInitializer);
 
+	UTreeViewItem(const FString & InObjectName);
+
+	/** PostInitProperties override. */
+//	virtual void PostInitProperties() override;
+
+
+};
+
+USTRUCT()
+struct FTreeViewItemData
+{
+	GENERATED_USTRUCT_BODY()
+
+	//	~FTreeViewItemData() { delete *ObjectName; } //TODO What should I do here
+
+	UPROPERTY(Transient)
+	FString ObjectName;
 };

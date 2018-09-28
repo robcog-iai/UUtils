@@ -45,8 +45,7 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 								.TreeItemsSource(&ItemsFirstColumn)
 								.OnGenerateRow(this, &SUTagsTreeViewWidget::OnGenerateRowForTree)
 								.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
-								
-
+								.ClearSelectionOnClick(false)
 							]
 
 
@@ -63,31 +62,34 @@ FReply SUTagsTreeViewWidget::ButtonPressed()
 {
 	//ItemsFirstColumn.Add(MakeShareable(new UTreeViewItem()));
 	FString TheFString =  FString(TEXT("This is my test FString."));
-	UTreeViewItem NewItem(TheFString);
-	//NewItem.ObjectName = new FString("Test Name Object");
-
-	ItemsFirstColumn.Add(&NewItem);
+	FTreeViewItemData NewItem;
+	NewItem.ObjectName = TheFString;
+	//UTreeViewItem* NewItem;
+	//NewItem = NewObject<UTreeViewItem>;
+	//NewItem.ObjectNameXY = TheFString;
+	ItemsFirstColumn.Add(MakeShareable(&NewItem));
+	UTagsTree->RequestTreeRefresh();
 	return FReply::Handled();
 }
 
-TSharedRef<class ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(UTreeViewItem* Item, const TSharedRef<STableViewBase>& OwnerTable)
+TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedPtr<FTreeViewItemData> Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
-//	FString DisplayString = 
-	//Create the row
 	return
-		SNew(STableRow< UTreeViewItem* >, OwnerTable)
+		SNew(STableRow< TSharedPtr<FTreeViewItemData> >, OwnerTable)
+		[
+			SNew(SHorizontalBox)
+			+ SHorizontalBox::Slot()
+		.FillWidth(1000)
 		.Padding(2.0f)
-
 		[
 			SNew(STextBlock)
-			//.TreeItem(Item)
 			.Text(FText::FromString(Item->ObjectName))
-		
-		
+		//	.Font(Font)
+		]
 		];
 }
 
-void SUTagsTreeViewWidget::OnGetChildrenForTree(class UTreeViewItem* Item, TArray< UTreeViewItem*>& OutChildren)
+void SUTagsTreeViewWidget::OnGetChildrenForTree(TSharedPtr<FTreeViewItemData>  Item, TArray< TSharedPtr<FTreeViewItemData> >& OutChildren)
 {
 	//OutChildren = nullptr;
 }
