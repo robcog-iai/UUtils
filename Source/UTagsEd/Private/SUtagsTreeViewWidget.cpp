@@ -42,10 +42,10 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 
 								SAssignNew(UTagsTree, SUTagsTreeView)
 								.ItemHeight(TreeItemHeight)
-								.TreeItemsSource(&ItemsFirstColumn)
+								.TreeItemsSource(&SharedTreeItems)
 								.OnGenerateRow(this, &SUTagsTreeViewWidget::OnGenerateRowForTree)
 								.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
-								.ClearSelectionOnClick(false)
+								//.ClearSelectionOnClick(false)
 							]
 
 
@@ -60,21 +60,17 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 FReply SUTagsTreeViewWidget::ButtonPressed()
 {
-	//ItemsFirstColumn.Add(MakeShareable(new UTreeViewItem()));
 	FString TheFString =  FString(TEXT("This is my test FString."));
 	FTreeViewItemData NewItem;
 	NewItem.ObjectName = TheFString;
-	//UTreeViewItem* NewItem;
-	//NewItem = NewObject<UTreeViewItem>;
-	//NewItem.ObjectNameXY = TheFString;
-	ItemsFirstColumn.Add(MakeShareable(&NewItem));
+	SharedTreeItems.Add(MakeShareable(&NewItem));
 	UTagsTree->RequestTreeRefresh();
 	return FReply::Handled();
 }
 
-TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedPtr<FTreeViewItemData> Item, const TSharedRef<STableViewBase>& OwnerTable)
+TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedRef<FTreeViewItemData> Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
-	return
+ 	return
 		SNew(STableRow< TSharedPtr<FTreeViewItemData> >, OwnerTable)
 		[
 			SNew(SHorizontalBox)
@@ -84,14 +80,16 @@ TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedPtr<FTre
 		[
 			SNew(STextBlock)
 			.Text(FText::FromString(Item->ObjectName))
-		//	.Font(Font)
 		]
 		];
 }
 
-void SUTagsTreeViewWidget::OnGetChildrenForTree(TSharedPtr<FTreeViewItemData>  Item, TArray< TSharedPtr<FTreeViewItemData> >& OutChildren)
-{
-	//OutChildren = nullptr;
+void SUTagsTreeViewWidget::OnGetChildrenForTree(TSharedRef<FTreeViewItemData>  Info, TArray< TSharedRef<FTreeViewItemData> >& OutChildren)
+{	for (int i = 0; i < Items.Num(); ++i) {
+		if (Info->Index == Items[i].Parent) {
+			OutChildren.Add(MakeShareable(new FTreeViewItemData(Items[i])));
+		}
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

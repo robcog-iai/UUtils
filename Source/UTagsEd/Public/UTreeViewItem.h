@@ -31,7 +31,10 @@ struct FTreeViewItemData
 {
 	GENERATED_USTRUCT_BODY()
 
-	//	~FTreeViewItemData() { delete *ObjectName; } //TODO What should I do here
+		//	~FTreeViewItemData() { delete *ObjectName; } //TODO What should I do here
+	int Index;;
+	UPROPERTY(Transient)
+	int Parent;
 
 	UPROPERTY(Transient)
 	FString ObjectName;

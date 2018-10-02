@@ -26,16 +26,18 @@ public:
 	/**Todo delete Temporary button to manually add items to the tree*/
 	FReply ButtonPressed();
 	/** Generate each row for the name list */
-	TSharedRef<ITableRow> OnGenerateRowForTree(TSharedPtr<FTreeViewItemData>  Item, const TSharedRef<STableViewBase>& OwnerTable);
+	TSharedRef<ITableRow> OnGenerateRowForTree(TSharedRef<FTreeViewItemData>  Item, const TSharedRef<STableViewBase>& OwnerTable);
 	/** Generate Children*/
-	void OnGetChildrenForTree(TSharedPtr<FTreeViewItemData>  Item, TArray< TSharedPtr<FTreeViewItemData> >& OutChildren);
+	void OnGetChildrenForTree(TSharedRef<FTreeViewItemData>  Item, TArray< TSharedRef<FTreeViewItemData> >& OutChildren);
 
 private:
 	TSharedPtr<SUTagsTreeView> UTagsTree;
 	/**Tree View List Item Height Todo? : UProperty*/
 	float TreeItemHeight;
-
-	TArray<TSharedPtr<FTreeViewItemData>> ItemsFirstColumn;
+	/**List with actual Items inside the displayed Tree*/
+	TArray<TSharedRef<FTreeViewItemData>> SharedTreeItems;
+	/** The list of items to generate widgets for */
+	TArray<FTreeViewItemData> Items;
 
 };
 //STreeView< TSharedPtr<struct FUTagsItem>> Todo make with your own struct
