@@ -18,6 +18,7 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 	const FText ButtonFText = FText::FromString(ButtonFString);
 
 	TreeItemHeight = 16.0f;
+	ItemCounterIndex = 0;
 
 	// UI Implementation
 	ChildSlot[
@@ -60,11 +61,18 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 FReply SUTagsTreeViewWidget::ButtonPressed()
 {
-	FString TheFString =  FString(TEXT("This is my test FString."));
-	FTreeViewItemData NewItem;
-	NewItem.ObjectName = TheFString;
-	SharedTreeItems.Add(MakeShareable(&NewItem));
+	
+	FString TheFString =  FString(TEXT("This is my test FString. Test Test"));
+	FTreeViewItemData* NewItem = new FTreeViewItemData;
+	NewItem->Index = ItemCounterIndex;
+	NewItem->Parent = 0; 
+	if (ItemCounterIndex) {
+		NewItem->Parent = ItemCounterIndex - 1;
+	}
+	NewItem->ObjectName = TheFString;
+	SharedTreeItems.Add(MakeShareable(NewItem));
 	UTagsTree->RequestTreeRefresh();
+	ItemCounterIndex++;
 	return FReply::Handled();
 }
 

@@ -39,6 +39,8 @@ private:
 	/** The list of items to generate widgets for */
 	TArray<FTreeViewItemData> Items;
 
+	int ItemCounterIndex;
+
 };
 //STreeView< TSharedPtr<struct FUTagsItem>> Todo make with your own struct
 
