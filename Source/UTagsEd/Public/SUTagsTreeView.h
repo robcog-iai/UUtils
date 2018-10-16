@@ -4,12 +4,12 @@
 #include "UTreeViewItem.h" 
 
 
-class SUTagsTreeView : public STreeView<TSharedRef<FTreeViewItemData>>
+class SUTagsTreeView : public STreeView<FTreeViewItemDataPtrType>
 {
 public:
 	~SUTagsTreeView()
 	{
-	//	delete(ItemsSource); //TODO Struct delete
+	
 	}
 
 };

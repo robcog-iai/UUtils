@@ -26,16 +26,29 @@ public:
 
 };
 
+// TreeView Data pointer type
+typedef TSharedPtr<struct FTreeViewItemData> FTreeViewItemDataPtrType;
+
 USTRUCT()
 struct FTreeViewItemData
 {
 	GENERATED_USTRUCT_BODY()
 
-		//	~FTreeViewItemData() { delete *ObjectName; } //TODO What should I do here
+	//	~FTreeViewItemData() { delete *ObjectName; } //TODO What should If I should
 	int Index;;
 	UPROPERTY(Transient)
 	int Parent;
 
 	UPROPERTY(Transient)
 	FString ObjectName;
+
+	FTreeViewItemDataPtrType ParentItemPtr;
+
+	TArray<FTreeViewItemDataPtrType> Children;
+	/**
+	* Adds the given data as a child data.
+	*/
+	void AddChild(FTreeViewItemDataPtrType InChildNodePtr);
+
+	const TArray<FTreeViewItemDataPtrType>& GetChildren() const { return Children; }
 };

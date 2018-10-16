@@ -39,6 +39,12 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 									.Text(ButtonFText)
 								.OnClicked(this, &SUTagsTreeViewWidget::ButtonPressed)
 								]
+								+ SScrollBox::Slot()
+									[
+										SNew(SButton)
+										.Text(ButtonFText)
+									.OnClicked(this, &SUTagsTreeViewWidget::ChildButtonPressed)
+									]
 							+ SScrollBox::Slot()[
 
 								SAssignNew(UTagsTree, SUTagsTreeView)
@@ -62,7 +68,7 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 FReply SUTagsTreeViewWidget::ButtonPressed()
 {
 	
-	FString TheFString =  FString(TEXT("This is my test FString. Test Test"));
+	FString TheFString =  FString(TEXT("Parent.This is my test FString."));
 	FTreeViewItemData* NewItem = new FTreeViewItemData;
 	NewItem->Index = ItemCounterIndex;
 	NewItem->Parent = 0; 
@@ -76,7 +82,24 @@ FReply SUTagsTreeViewWidget::ButtonPressed()
 	return FReply::Handled();
 }
 
-TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedRef<FTreeViewItemData> Item, const TSharedRef<STableViewBase>& OwnerTable)
+FReply SUTagsTreeViewWidget::ChildButtonPressed()
+{
+	FString TheFString = FString(TEXT("Child Element"));
+	FTreeViewItemData* NewItem = new FTreeViewItemData;
+	NewItem->Index = ItemCounterIndex;
+	NewItem->Parent = 1;
+	NewItem->ObjectName = TheFString;
+	FTreeViewItemDataPtrType NewItemPtrType = MakeShareable(NewItem);
+	//Find in Shared items the 0 parent
+	FTreeViewItemDataPtrType* DataPtr = SharedTreeItems.GetData();
+	DataPtr->Get()->AddChild(NewItemPtrType);
+	//DataPtr.Get()->AddChild(NewItemPtrType);
+	
+	UTagsTree->RequestTreeRefresh();
+	ItemCounterIndex++;
+	return FReply::Handled();
+}
+TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDataPtrType Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
  	return
 		SNew(STableRow< TSharedPtr<FTreeViewItemData> >, OwnerTable)
@@ -92,11 +115,21 @@ TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(TSharedRef<FTre
 		];
 }
 
-void SUTagsTreeViewWidget::OnGetChildrenForTree(TSharedRef<FTreeViewItemData>  Info, TArray< TSharedRef<FTreeViewItemData> >& OutChildren)
-{	for (int i = 0; i < Items.Num(); ++i) {
+void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, TArray< FTreeViewItemDataPtrType >& OutChildren)
+{	/*for (int i = 0; i < Items.Num(); ++i) {
 		if (Info->Index == Items[i].Parent) {
 			OutChildren.Add(MakeShareable(new FTreeViewItemData(Items[i])));
 		}
+	}*/
+	if (Info.IsValid())
+	{
+		const TArray<FTreeViewItemDataPtrType>& Children = Info->GetChildren();
+		OutChildren.Reserve(Children.Num());
+		OutChildren = Children;
+	}
+	else
+	{
+		OutChildren.Empty();
 	}
 }
 

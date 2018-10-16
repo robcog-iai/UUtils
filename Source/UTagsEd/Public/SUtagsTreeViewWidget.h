@@ -18,24 +18,25 @@
 
 class SUTagsTreeViewWidget : public SCompoundWidget
 {
-public:
+public: 
 	SLATE_BEGIN_ARGS(SUTagsTreeViewWidget) {}
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& Args);
 	/**Todo delete Temporary button to manually add items to the tree*/
 	FReply ButtonPressed();
+	FReply ChildButtonPressed();
 	/** Generate each row for the name list */
-	TSharedRef<ITableRow> OnGenerateRowForTree(TSharedRef<FTreeViewItemData>  Item, const TSharedRef<STableViewBase>& OwnerTable);
+	TSharedRef<ITableRow> OnGenerateRowForTree(FTreeViewItemDataPtrType  Item, const TSharedRef<STableViewBase>& OwnerTable);
 	/** Generate Children*/
-	void OnGetChildrenForTree(TSharedRef<FTreeViewItemData>  Item, TArray< TSharedRef<FTreeViewItemData> >& OutChildren);
+	void OnGetChildrenForTree(FTreeViewItemDataPtrType  Item, TArray<FTreeViewItemDataPtrType>& OutChildren);
 
 private:
 	TSharedPtr<SUTagsTreeView> UTagsTree;
 	/**Tree View List Item Height Todo? : UProperty*/
 	float TreeItemHeight;
 	/**List with actual Items inside the displayed Tree*/
-	TArray<TSharedRef<FTreeViewItemData>> SharedTreeItems;
+	TArray<FTreeViewItemDataPtrType> SharedTreeItems;
 	/** The list of items to generate widgets for */
 	TArray<FTreeViewItemData> Items;
 
