@@ -4,28 +4,6 @@
 #include "EngineUtils.h"
 #include "UTreeViewItem.generated.h"
 
-UCLASS()
-class UTreeViewItem : public UObject
-{
-	GENERATED_BODY ()
-
-public:
-	//properties
-	UPROPERTY(Transient)
-		FString ObjectName;
-
-public:
-	//methods
-	UTreeViewItem(const FObjectInitializer& ObjectInitializer);
-
-	UTreeViewItem(const FString & InObjectName);
-
-	/** PostInitProperties override. */
-//	virtual void PostInitProperties() override;
-
-
-};
-
 // TreeView Data pointer type
 typedef TSharedPtr<struct FTreeViewItemData> FTreeViewItemDataPtrType;
 

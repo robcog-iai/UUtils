@@ -8,14 +8,14 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 {
-	// Data Aquisition
-
-	//TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndTagsMap;
-	//ActorsAndTagsMap = FTags::GetAllTagsFromWorldActors(GEditor->GetEditorWorldContext().World());
-
+	// Data Aqusition
+	ActorsAndTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
 	//Configuration
 	const FString ButtonFString("Add New Item To Tree");
 	const FText ButtonFText = FText::FromString(ButtonFString);
+
+	const FString GenerateButtonFString("Generate Values");
+	const FText GenerateButtonFText = FText::FromString(GenerateButtonFString);
 
 	TreeItemHeight = 16.0f;
 	ItemCounterIndex = 0;
@@ -39,12 +39,18 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 									.Text(ButtonFText)
 								.OnClicked(this, &SUTagsTreeViewWidget::ButtonPressed)
 								]
-								+ SScrollBox::Slot()
+						+ SScrollBox::Slot()
 									[
 										SNew(SButton)
 										.Text(ButtonFText)
 									.OnClicked(this, &SUTagsTreeViewWidget::ChildButtonPressed)
 									]
+						+ SScrollBox::Slot()
+							[
+								SNew(SButton)
+								.Text(GenerateButtonFText)
+							.OnClicked(this, &SUTagsTreeViewWidget::GenerateButtonPressed)
+							]
 							+ SScrollBox::Slot()[
 
 								SAssignNew(UTagsTree, SUTagsTreeView)
@@ -92,12 +98,37 @@ FReply SUTagsTreeViewWidget::ChildButtonPressed()
 	FTreeViewItemDataPtrType NewItemPtrType = MakeShareable(NewItem);
 	//Find in Shared items the 0 parent
 	FTreeViewItemDataPtrType* DataPtr = SharedTreeItems.GetData();
+	if(DataPtr->IsValid()){
 	DataPtr->Get()->AddChild(NewItemPtrType);
+	}
 	//DataPtr.Get()->AddChild(NewItemPtrType);
-	
+	SharedTreeItems.Add(MakeShareable(NewItem));
 	UTagsTree->RequestTreeRefresh();
 	ItemCounterIndex++;
 	return FReply::Handled();
+}
+
+FReply SUTagsTreeViewWidget::GenerateButtonPressed()
+{
+	// Data Aqusition
+ 	ActorsAndTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
+ 		for (auto& Elem : ActorsAndTagsMap) {
+			//Object Title Part
+			FTreeViewItemData* NewItem = new FTreeViewItemData;
+			FString ObjectName = Elem.Key.Get()->GetName();
+			//Convert to our Data Type
+			NewItem = new FTreeViewItemData;
+			NewItem->Index = ItemCounterIndex;
+			NewItem->Parent = 1;
+			NewItem->ObjectName = ObjectName;
+			//Object Tag Data Type
+			SharedTreeItems.Add(MakeShareable(NewItem));
+	}
+
+		UTagsTree->RequestTreeRefresh();
+		ItemCounterIndex++;
+		return FReply::Handled();
+
 }
 TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDataPtrType Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
@@ -116,11 +147,7 @@ TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDa
 }
 
 void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, TArray< FTreeViewItemDataPtrType >& OutChildren)
-{	/*for (int i = 0; i < Items.Num(); ++i) {
-		if (Info->Index == Items[i].Parent) {
-			OutChildren.Add(MakeShareable(new FTreeViewItemData(Items[i])));
-		}
-	}*/
+{	
 	if (Info.IsValid())
 	{
 		const TArray<FTreeViewItemDataPtrType>& Children = Info->GetChildren();

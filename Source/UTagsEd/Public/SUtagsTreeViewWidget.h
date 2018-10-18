@@ -26,6 +26,7 @@ public:
 	/**Todo delete Temporary button to manually add items to the tree*/
 	FReply ButtonPressed();
 	FReply ChildButtonPressed();
+	FReply GenerateButtonPressed();
 	/** Generate each row for the name list */
 	TSharedRef<ITableRow> OnGenerateRowForTree(FTreeViewItemDataPtrType  Item, const TSharedRef<STableViewBase>& OwnerTable);
 	/** Generate Children*/
@@ -42,6 +43,7 @@ private:
 
 	int ItemCounterIndex;
 
+	TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndTagsMap;
 };
 //STreeView< TSharedPtr<struct FUTagsItem>> Todo make with your own struct
 
