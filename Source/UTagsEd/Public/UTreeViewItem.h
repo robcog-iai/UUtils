@@ -12,7 +12,7 @@ struct FTreeViewItemData
 {
 	GENERATED_USTRUCT_BODY()
 
-	//	~FTreeViewItemData() { delete *ObjectName; } //TODO What should If I should
+	//	TODO Delte after final implementation. Debugging purposes to understand easily
 	int Index;;
 	UPROPERTY(Transient)
 	int Parent;

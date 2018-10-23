@@ -111,6 +111,7 @@ FReply SUTagsTreeViewWidget::ChildButtonPressed()
 FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 {
 	// Data Aqusition
+	//TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> 
  	ActorsAndTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
  		for (auto& Elem : ActorsAndTagsMap) {
 			//Object Title Part
@@ -121,17 +122,37 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 			NewItem->Index = ItemCounterIndex;
 			NewItem->Parent = 1;
 			NewItem->ObjectName = ObjectName;
-			//Object Tag Data Type
-			SharedTreeItems.Add(MakeShareable(NewItem));
-	}
+			ItemCounterIndex++;
 
+			FTreeViewItemDataPtrType NewItemPtrType = MakeShareable(NewItem);
+			SharedTreeItems.Add(NewItemPtrType);
+
+			//Object Tag Data
+			FString TagTypeFString = Elem.Value.GetData()->TagType;
+			FTreeViewItemData* NewItemTag = new FTreeViewItemData;
+			NewItemTag->Index = ItemCounterIndex;
+			NewItemTag->Parent = ItemCounterIndex;
+			NewItemTag->ObjectName = TagTypeFString;
+			FTreeViewItemDataPtrType NewItemPtrTagType = MakeShareable(NewItemTag);
+
+			FTreeViewItemDataPtrType* DataPtr = SharedTreeItems.FindByKey(NewItemPtrType);
+			if (DataPtr->IsValid()) {
+				DataPtr->Get()->AddChild(NewItemPtrTagType);
+			}
+			ItemCounterIndex++;
+
+			//	TODO Iterate over map 
+			// add all key values 
+			// GenerateRowForTree cumva mai special sa faca diferit pentru element (think ahead of crud la datatype)
+	}
 		UTagsTree->RequestTreeRefresh();
-		ItemCounterIndex++;
+		
 		return FReply::Handled();
 
 }
 TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDataPtrType Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
+	//The function behaves differently for Tags than for Object Names
  	return
 		SNew(STableRow< TSharedPtr<FTreeViewItemData> >, OwnerTable)
 		[
@@ -161,4 +182,3 @@ void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, 
 }
 
 #undef LOCTEXT_NAMESPACE
-
