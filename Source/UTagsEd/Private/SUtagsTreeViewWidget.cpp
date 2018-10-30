@@ -8,8 +8,6 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 {
-	// Data Aqusition
-	ActorsAndTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
 	//Configuration
 	const FString ButtonFString("Add New Item To Tree");
 	const FText ButtonFText = FText::FromString(ButtonFString);
@@ -114,7 +112,7 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 	//TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> 
  	ActorsAndTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
  		for (auto& Elem : ActorsAndTagsMap) {
-			//Object Title Part
+			//Object Title Part TODO Check if Unique
 			FTreeViewItemData* NewItem = new FTreeViewItemData;
 			FString ObjectName = Elem.Key.Get()->GetName();
 			//Convert to our Data Type
@@ -123,24 +121,29 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 			NewItem->Parent = 1;
 			NewItem->ObjectName = ObjectName;
 			ItemCounterIndex++;
-
+			//Object TagData
 			FTreeViewItemDataPtrType NewItemPtrType = MakeShareable(NewItem);
 			SharedTreeItems.Add(NewItemPtrType);
 
-			//Object Tag Data
-			FString TagTypeFString = Elem.Value.GetData()->TagType;
-			FTreeViewItemData* NewItemTag = new FTreeViewItemData;
-			NewItemTag->Index = ItemCounterIndex;
-			NewItemTag->Parent = ItemCounterIndex;
-			NewItemTag->ObjectName = TagTypeFString;
-			FTreeViewItemDataPtrType NewItemPtrTagType = MakeShareable(NewItemTag);
-
-			FTreeViewItemDataPtrType* DataPtr = SharedTreeItems.FindByKey(NewItemPtrType);
-			if (DataPtr->IsValid()) {
-				DataPtr->Get()->AddChild(NewItemPtrTagType);
+			TArray<FTagData> FTagDataArray = Elem.Value;
+			for (auto& FTagDataElem : FTagDataArray)
+			{ 
+				//TagType Add
+				FString TagTypeFString = FTagDataElem.TagType;
+				FTreeViewItemData* NewItemTag = new FTreeViewItemData;
+				NewItemTag->Index = ItemCounterIndex;
+				NewItemTag->Parent = ItemCounterIndex -1;
+				NewItemTag->ObjectName = TagTypeFString;
+				FTreeViewItemDataPtrType NewItemPtrTagType = MakeShareable(NewItemTag);
+				//KeyValue Add
+				NewItemTag->KeyValueTags = FTagDataElem.KeyValueMap;
+				//Add to current Title Item As Child
+				FTreeViewItemDataPtrType* DataPtr = SharedTreeItems.FindByKey(NewItemPtrType);
+				if (DataPtr->IsValid()) {
+					DataPtr->Get()->AddChild(NewItemPtrTagType);
+				}
+				ItemCounterIndex++;
 			}
-			ItemCounterIndex++;
-
 			//	TODO Iterate over map 
 			// add all key values 
 			// GenerateRowForTree cumva mai special sa faca diferit pentru element (think ahead of crud la datatype)
@@ -153,18 +156,46 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDataPtrType Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
 	//The function behaves differently for Tags than for Object Names
+
+	if (Item->KeyValueTags.Num() == 0)
+	{//Title Row
+		return
+			SNew(STableRow< TSharedPtr<FTreeViewItemData> >, OwnerTable)
+			[
+				SNew(SHorizontalBox)
+				+ SHorizontalBox::Slot()
+			.FillWidth(1000)
+			.Padding(2.0f)
+			[
+				SNew(STextBlock)
+				.Text(FText::FromString(Item->ObjectName))
+			]
+			];
+	}
+	else
+	{//Data Row
  	return
 		SNew(STableRow< TSharedPtr<FTreeViewItemData> >, OwnerTable)
 		[
 			SNew(SHorizontalBox)
 			+ SHorizontalBox::Slot()
-		.FillWidth(1000)
+		.MaxWidth(300)
+		.FillWidth(300)
 		.Padding(2.0f)
 		[
 			SNew(STextBlock)
 			.Text(FText::FromString(Item->ObjectName))
 		]
+			+ SHorizontalBox::Slot()
+		.FillWidth(1000)
+		.Padding(2.0f)
+		[
+			SNew(SEditableTextBox)
+			.Text(FText::FromString(GetAllKeyValueTags(Item->KeyValueTags)))
+		]
 		];
+		
+	} // return SNew(SSpacer); Pentru Empty
 }
 
 void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, TArray< FTreeViewItemDataPtrType >& OutChildren)
@@ -181,4 +212,20 @@ void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, 
 	}
 }
 
+ FString SUTagsTreeViewWidget::GetAllKeyValueTags(TMap<FString, FString> KeyValueTags)
+{
+	 FString TagsFstring = "";
+	 for (TPair< FString, FString>& Tag: KeyValueTags)
+	 {
+		 TagsFstring = TagsFstring + Tag.Key + "," + Tag.Value +  ";";
+	 }
+
+	 return TagsFstring;
+}
 #undef LOCTEXT_NAMESPACE
+
+ /*
+ Find Function :
+ // Get all objects with TF tags
+ auto ObjToTagData = FTagStatics::GetObjectsToKeyValuePairs(GetWorld(), TEXT("TF"));
+ */

@@ -62,7 +62,7 @@ void SUtagsListWidget::Construct(const FArguments& Args)
 					]
 			)
 				]
-			+ SSplitter::Slot()
+				+ SSplitter::Slot()
 				[
 					SAssignNew(SecondViewWidget, SListView<TSharedPtr<FString>>)
 					.ItemHeight(22)

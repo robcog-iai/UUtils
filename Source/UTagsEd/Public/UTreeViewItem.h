@@ -16,6 +16,9 @@ struct FTreeViewItemData
 	int Index;;
 	UPROPERTY(Transient)
 	int Parent;
+	//	TODO Delte after final implementation. Debugging purposes to understand easily
+
+	bool bIsTagType;
 
 	UPROPERTY(Transient)
 	FString ObjectName;
@@ -23,6 +26,8 @@ struct FTreeViewItemData
 	FTreeViewItemDataPtrType ParentItemPtr;
 
 	TArray<FTreeViewItemDataPtrType> Children;
+
+	TMap<FString, FString> KeyValueTags;
 	/**
 	* Adds the given data as a child data.
 	*/

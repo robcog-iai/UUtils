@@ -1069,7 +1069,7 @@ TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> FTags::GetWorldTagsData(UWorld *
 			//Only add new tag data to valid weak pointer objects if they contain any tags
 			if (ActorTags.GetData() != nullptr)
 			{
-				ActorTagsData = GetObjectTagsData(ActorTags, *ActorItr);
+				ActorTagsData = GetObjectTagsData(ActorTags, *ActorItr);//TODO ARRAY
 				WorldTagsData.Add(WeakActorPtr, ActorTagsData);
 			}
 			//Iterate Components Of The Actor

@@ -32,6 +32,8 @@ public:
 	/** Generate Children*/
 	void OnGetChildrenForTree(FTreeViewItemDataPtrType  Item, TArray<FTreeViewItemDataPtrType>& OutChildren);
 
+	static FString GetAllKeyValueTags(TMap<FString, FString> KeyValueTags);
+
 private:
 	TSharedPtr<SUTagsTreeView> UTagsTree;
 	/**Tree View List Item Height Todo? : UProperty*/
