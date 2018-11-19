@@ -74,15 +74,9 @@ FReply SUTagsTreeViewWidget::ButtonPressed()
 	
 	FString TheFString =  FString(TEXT("Parent.This is my test FString."));
 	FTreeViewItemData* NewItem = new FTreeViewItemData;
-	NewItem->Index = ItemCounterIndex;
-	NewItem->Parent = 0; 
-	if (ItemCounterIndex) {
-		NewItem->Parent = ItemCounterIndex - 1;
-	}
 	NewItem->ObjectName = TheFString;
 	SharedTreeItems.Add(MakeShareable(NewItem));
 	UTagsTree->RequestTreeRefresh();
-	ItemCounterIndex++;
 	return FReply::Handled();
 }
 
@@ -90,26 +84,22 @@ FReply SUTagsTreeViewWidget::ChildButtonPressed()
 {
 	FString TheFString = FString(TEXT("Child Element"));
 	FTreeViewItemData* NewItem = new FTreeViewItemData;
-	NewItem->Index = ItemCounterIndex;
-	NewItem->Parent = 1;
 	NewItem->ObjectName = TheFString;
 	FTreeViewItemDataPtrType NewItemPtrType = MakeShareable(NewItem);
 	//Find in Shared items the 0 parent
 	FTreeViewItemDataPtrType* DataPtr = SharedTreeItems.GetData();
 	if(DataPtr->IsValid()){
-	DataPtr->Get()->AddChild(NewItemPtrType);
+		DataPtr->Get()->AddChild(NewItemPtrType);
 	}
 	//DataPtr.Get()->AddChild(NewItemPtrType);
 	SharedTreeItems.Add(MakeShareable(NewItem));
 	UTagsTree->RequestTreeRefresh();
-	ItemCounterIndex++;
 	return FReply::Handled();
 }
 
 FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 {
 	// Data Aqusition
-	//TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> 
  	ActorsAndTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
  		for (auto& Elem : ActorsAndTagsMap) {
 			//Object Title Part TODO Check if Unique
@@ -117,8 +107,6 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 			FString ObjectName = Elem.Key.Get()->GetName();
 			//Convert to our Data Type
 			NewItem = new FTreeViewItemData;
-			NewItem->Index = ItemCounterIndex;
-			NewItem->Parent = 1;
 			NewItem->ObjectName = ObjectName;
 			ItemCounterIndex++;
 			//Object TagData
@@ -126,13 +114,10 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 			SharedTreeItems.Add(NewItemPtrType);
 
 			TArray<FTagData> FTagDataArray = Elem.Value;
-			for (auto& FTagDataElem : FTagDataArray)
-			{ 
+			for (auto& FTagDataElem : FTagDataArray){ 
 				//TagType Add
 				FString TagTypeFString = FTagDataElem.TagType;
 				FTreeViewItemData* NewItemTag = new FTreeViewItemData;
-				NewItemTag->Index = ItemCounterIndex;
-				NewItemTag->Parent = ItemCounterIndex -1;
 				NewItemTag->ObjectName = TagTypeFString;
 				FTreeViewItemDataPtrType NewItemPtrTagType = MakeShareable(NewItemTag);
 				//KeyValue Add
@@ -142,16 +127,11 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 				if (DataPtr->IsValid()) {
 					DataPtr->Get()->AddChild(NewItemPtrTagType);
 				}
-				ItemCounterIndex++;
 			}
-			//	TODO Iterate over map 
-			// add all key values 
-			// GenerateRowForTree cumva mai special sa faca diferit pentru element (think ahead of crud la datatype)
 	}
 		UTagsTree->RequestTreeRefresh();
 		
 		return FReply::Handled();
-
 }
 TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDataPtrType Item, const TSharedRef<STableViewBase>& OwnerTable)
 {

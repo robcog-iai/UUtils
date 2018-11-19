@@ -12,14 +12,6 @@ struct FTreeViewItemData
 {
 	GENERATED_USTRUCT_BODY()
 
-	//	TODO Delte after final implementation. Debugging purposes to understand easily
-	int Index;;
-	UPROPERTY(Transient)
-	int Parent;
-	//	TODO Delte after final implementation. Debugging purposes to understand easily
-
-	bool bIsTagType;
-
 	UPROPERTY(Transient)
 	FString ObjectName;
 
