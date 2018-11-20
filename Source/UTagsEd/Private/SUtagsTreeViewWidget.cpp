@@ -24,25 +24,12 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 			//	.MaxDesiredHeight(ChildSlot) FOR SCROLLBAR WE MUST GET THE SIZE OF THE CHILDREN AND SET IT TO THE MAXIMUM OF THE WINDOW
 			[
 				SNew(SBorder)[
-					SNew(SScrollBox)//TODO Incercam de data asta cu Overlay vedem dupa daca ii mai bun scrollbox
-
+					SNew(SScrollBox)
 						+ SScrollBox::Slot()[//TODO Aici putem pune border color
 							SNew(SSearchBox)
 								.HintText(LOCTEXT("SearchBoxHint", "Search after object name"))
 								//.OnTextChanged(this, &SUtagsListWidget::HandleFilterStringTextChanged) //ToDo fImplement this
 						]
-						+ SScrollBox::Slot()
-								[
-									SNew(SButton)
-									.Text(ButtonFText)
-								.OnClicked(this, &SUTagsTreeViewWidget::ButtonPressed)
-								]
-						+ SScrollBox::Slot()
-									[
-										SNew(SButton)
-										.Text(ButtonFText)
-									.OnClicked(this, &SUTagsTreeViewWidget::ChildButtonPressed)
-									]
 						+ SScrollBox::Slot()
 							[
 								SNew(SButton)
@@ -58,8 +45,6 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 								.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
 								//.ClearSelectionOnClick(false)
 							]
-
-
 				]
 			]
 		];
@@ -68,34 +53,6 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
-
-FReply SUTagsTreeViewWidget::ButtonPressed()
-{
-	
-	FString TheFString =  FString(TEXT("Parent.This is my test FString."));
-	FTreeViewItemData* NewItem = new FTreeViewItemData;
-	NewItem->ObjectName = TheFString;
-	SharedTreeItems.Add(MakeShareable(NewItem));
-	UTagsTree->RequestTreeRefresh();
-	return FReply::Handled();
-}
-
-FReply SUTagsTreeViewWidget::ChildButtonPressed()
-{
-	FString TheFString = FString(TEXT("Child Element"));
-	FTreeViewItemData* NewItem = new FTreeViewItemData;
-	NewItem->ObjectName = TheFString;
-	FTreeViewItemDataPtrType NewItemPtrType = MakeShareable(NewItem);
-	//Find in Shared items the 0 parent
-	FTreeViewItemDataPtrType* DataPtr = SharedTreeItems.GetData();
-	if(DataPtr->IsValid()){
-		DataPtr->Get()->AddChild(NewItemPtrType);
-	}
-	//DataPtr.Get()->AddChild(NewItemPtrType);
-	SharedTreeItems.Add(MakeShareable(NewItem));
-	UTagsTree->RequestTreeRefresh();
-	return FReply::Handled();
-}
 
 FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 {
@@ -203,9 +160,3 @@ void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, 
 	 return TagsFstring;
 }
 #undef LOCTEXT_NAMESPACE
-
- /*
- Find Function :
- // Get all objects with TF tags
- auto ObjToTagData = FTagStatics::GetObjectsToKeyValuePairs(GetWorld(), TEXT("TF"));
- */

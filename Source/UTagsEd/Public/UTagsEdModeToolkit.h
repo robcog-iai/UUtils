@@ -21,8 +21,6 @@ public:
 	virtual class FEdMode* GetEditorMode() const override;
 	virtual TSharedPtr<class SWidget> GetInlineContent() const override { return ToolkitWidget; }
 
-	// Reference to the SUTagsListWidget class Slate UI.
-	TSharedPtr<class SUtagsListWidget> SUtagsListWidgetRef;
 	// Reference to the SUtagsTreeViewWidget class Slate UI.
 	TSharedPtr<class SUTagsTreeViewWidget> SUtagsTreeViewWidgetRef;
 

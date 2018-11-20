@@ -44,20 +44,3 @@ bool FUTagsEdMode::UsesToolkits() const
 {
 	return true;
 }
-
-//
-//TArray<TWeakObjectPtr<AActor>> GetWeakActors()
-//{
-//	TArray<TWeakObjectPtr<AActor>> ActorArray;
-//	for (const auto* ActorItem : Actors)
-//	{
-//		if (ActorItem->Actor.IsValid())
-//		{
-//			ActorArray.Add(ActorItem->Actor);
-//		}
-//	}
-//	return ActorArray;
-//}
-
-
-

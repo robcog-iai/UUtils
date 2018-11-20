@@ -73,41 +73,6 @@ void FUTagsEdModeToolkit::Init(const TSharedPtr<IToolkitHost>& InitToolkitHost)
 		
 		[
 			SNew(SVerticalBox)
-
-	+ SVerticalBox::Slot()
-		.AutoHeight()
-		[
-			Locals::MakeButton(LOCTEXT("DownButtonLabel", "Down"), FVector(0, 0, -Factor))
-		]
-	
-	+ SVerticalBox::Slot()
-		.AutoHeight()
-		.HAlign(HAlign_Fill)
-		.VAlign(VAlign_Fill)
-		[
-			
-		SNew(SSplitter).ResizeMode(ESplitterResizeMode::Fill)
-		+ SSplitter::Slot()
-		[
-			SNew(STextBlock)
-			.AutoWrapText(true)
-			.Text(LOCTEXT("FirstColumn", "Prima COLOANA !!!!!!!"))
-		]
-		+ SSplitter::Slot()
-		[
-			SNew(STextBlock)
-			.AutoWrapText(true)
-			.Text(LOCTEXT("SecondColumn", "A DOUA COLOANA !!!!!!!"))
-		]
-
-		]
-	+ SVerticalBox::Slot()
-		.HAlign(HAlign_Fill)
-		.VAlign(VAlign_Fill)
-		.AutoHeight()
-		[
-			SAssignNew(SUtagsListWidgetRef, SUtagsListWidget)
-		]
 	+ SVerticalBox::Slot()
 		.HAlign(HAlign_Fill)
 		.VAlign(VAlign_Fill)
