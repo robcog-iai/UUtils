@@ -2,16 +2,14 @@
 
 #include "SlateBasics.h"
 #include "SSearchBox.h"
-//#include "SProjectViewItem.h"
 #include "Engine.h"
 #include "Tags.h"
 #include "SUTagsTreeView.h"
 #include "UTreeViewItem.h"
-//use SNullWidget when you need a placeholder
 #include "CoreMinimal.h"
 #include "EngineUtils.h"
 #include "UObject/ObjectMacros.h"
-//#include "SUTagsTreeViewWidget.generated.h"
+
 
 
 
@@ -23,16 +21,14 @@ public:
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& Args);
-	/**Todo delete Temporary button to manually add items to the tree*/
-	FReply ButtonPressed();
-	FReply ChildButtonPressed();
+	/**Generate Tags from Actor Components when the generate button is pressed*/
 	FReply GenerateButtonPressed();
 	/** Generate each row for the name list */
 	TSharedRef<ITableRow> OnGenerateRowForTree(FTreeViewItemDataPtrType  Item, const TSharedRef<STableViewBase>& OwnerTable);
 	/** Generate Children*/
 	void OnGetChildrenForTree(FTreeViewItemDataPtrType  Item, TArray<FTreeViewItemDataPtrType>& OutChildren);
-
-	static FString GetAllKeyValueTags(TMap<FString, FString> KeyValueTags);
+	/**Method for stringifying all the Tags such that they are appropriate for the Text Box*/
+	static FString StringifyAllKeyValueTags(TMap<FString, FString> KeyValueTags);
 
 private:
 	TSharedPtr<SUTagsTreeView> UTagsTree;
@@ -42,10 +38,7 @@ private:
 	TArray<FTreeViewItemDataPtrType> SharedTreeItems;
 	/** The list of items to generate widgets for */
 	TArray<FTreeViewItemData> Items;
-
-	int ItemCounterIndex;
-
-	TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndTagsMap;
+	//The Map containing a reference to each Actor/Components and its tags
+	TMap<TWeakObjectPtr<UObject>, TArray<FTagData>> ActorsAndComponentsTagsMap;
 };
-//STreeView< TSharedPtr<struct FUTagsItem>> Todo make with your own struct
 

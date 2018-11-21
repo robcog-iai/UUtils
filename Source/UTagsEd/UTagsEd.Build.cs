@@ -28,7 +28,6 @@ public class UTagsEd : ModuleRules
 				"Core",
                 "UTags",
                 "UIds",
-                "UConversions",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

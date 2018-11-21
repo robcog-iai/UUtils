@@ -16,7 +16,6 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 	const FText GenerateButtonFText = FText::FromString(GenerateButtonFString);
 
 	TreeItemHeight = 16.0f;
-	ItemCounterIndex = 0;
 
 	// UI Implementation
 	ChildSlot[
@@ -25,7 +24,7 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 			[
 				SNew(SBorder)[
 					SNew(SScrollBox)
-						+ SScrollBox::Slot()[//TODO Aici putem pune border color
+						+ SScrollBox::Slot()[//TODO Could add border color
 							SNew(SSearchBox)
 								.HintText(LOCTEXT("SearchBoxHint", "Search after object name"))
 								//.OnTextChanged(this, &SUtagsListWidget::HandleFilterStringTextChanged) //ToDo fImplement this
@@ -43,29 +42,24 @@ void SUTagsTreeViewWidget::Construct(const FArguments & Args)
 								.TreeItemsSource(&SharedTreeItems)
 								.OnGenerateRow(this, &SUTagsTreeViewWidget::OnGenerateRowForTree)
 								.OnGetChildren(this, &SUTagsTreeViewWidget::OnGetChildrenForTree)
-								//.ClearSelectionOnClick(false)
+								.ClearSelectionOnClick(false)
 							]
 				]
 			]
 		];
-
-
 }
-
-END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 {
 	// Data Aqusition
- 	ActorsAndTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
- 		for (auto& Elem : ActorsAndTagsMap) {
+ 	ActorsAndComponentsTagsMap = FTags::GetWorldTagsData(GEditor->GetEditorWorldContext().World());
+ 		for (auto& Elem : ActorsAndComponentsTagsMap) {
 			//Object Title Part TODO Check if Unique
 			FTreeViewItemData* NewItem = new FTreeViewItemData;
 			FString ObjectName = Elem.Key.Get()->GetName();
 			//Convert to our Data Type
 			NewItem = new FTreeViewItemData;
 			NewItem->ObjectName = ObjectName;
-			ItemCounterIndex++;
 			//Object TagData
 			FTreeViewItemDataPtrType NewItemPtrType = MakeShareable(NewItem);
 			SharedTreeItems.Add(NewItemPtrType);
@@ -93,7 +87,6 @@ FReply SUTagsTreeViewWidget::GenerateButtonPressed()
 TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDataPtrType Item, const TSharedRef<STableViewBase>& OwnerTable)
 {
 	//The function behaves differently for Tags than for Object Names
-
 	if (Item->KeyValueTags.Num() == 0)
 	{//Title Row
 		return
@@ -128,11 +121,10 @@ TSharedRef<ITableRow> SUTagsTreeViewWidget::OnGenerateRowForTree(FTreeViewItemDa
 		.Padding(2.0f)
 		[
 			SNew(SEditableTextBox)
-			.Text(FText::FromString(GetAllKeyValueTags(Item->KeyValueTags)))
+			.Text(FText::FromString(StringifyAllKeyValueTags(Item->KeyValueTags)))
 		]
-		];
-		
-	} // return SNew(SSpacer); Pentru Empty
+		];		
+	}
 }
 
 void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, TArray< FTreeViewItemDataPtrType >& OutChildren)
@@ -149,7 +141,7 @@ void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, 
 	}
 }
 
- FString SUTagsTreeViewWidget::GetAllKeyValueTags(TMap<FString, FString> KeyValueTags)
+ FString SUTagsTreeViewWidget::StringifyAllKeyValueTags(TMap<FString, FString> KeyValueTags)
 {
 	 FString TagsFstring = "";
 	 for (TPair< FString, FString>& Tag: KeyValueTags)
@@ -159,4 +151,6 @@ void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, 
 
 	 return TagsFstring;
 }
+ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
 #undef LOCTEXT_NAMESPACE
