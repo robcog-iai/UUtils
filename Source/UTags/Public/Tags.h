@@ -7,14 +7,19 @@
 #include "Tags.generated.h"
 
 
-
+/*
+* FTagData - the structure of the tag data
+* TagType;Key1,Value1;Key2,Value2;[..]
+*/
 USTRUCT()
 struct  FTagData 
 {
 	GENERATED_USTRUCT_BODY()
-
+	
+	// Tag type
 	FString TagType;
 
+	// Key-Value map
 	TMap<FString, FString> KeyValueMap;
 };
 
