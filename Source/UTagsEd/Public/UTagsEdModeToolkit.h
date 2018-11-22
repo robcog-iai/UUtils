@@ -4,7 +4,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SUtagsListWidget.h"
 #include "Toolkits/BaseToolkit.h"
 
 class FUTagsEdModeToolkit : public FModeToolkit
