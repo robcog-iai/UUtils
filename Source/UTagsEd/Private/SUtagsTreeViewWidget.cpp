@@ -1,6 +1,7 @@
+// Copyright 2018, Institute for Artificial Intelligence - University of Bremen
+// Author: Chifor Tudor
+
 #include "SUTagsTreeViewWidget.h"
-
-
 
 #define LOCTEXT_NAMESPACE "SUTagsTreeWidget"
 
@@ -151,6 +152,6 @@ void SUTagsTreeViewWidget::OnGetChildrenForTree(FTreeViewItemDataPtrType  Info, 
 
 	 return TagsFstring;
 }
- END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 #undef LOCTEXT_NAMESPACE

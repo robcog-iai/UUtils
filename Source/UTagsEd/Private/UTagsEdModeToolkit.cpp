@@ -1,4 +1,5 @@
-// Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
+// Copyright 2018, Institute for Artificial Intelligence - University of Bremen
+// Author: Chifor Tudor
 
 #include "UTagsEdModeToolkit.h"
 #include "UTagsEdMode.h"
