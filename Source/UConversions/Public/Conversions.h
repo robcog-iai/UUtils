@@ -64,7 +64,7 @@ struct FConversions
 	// FQuat by value
 	static FORCEINLINE FQuat UToROS(const FQuat& InQuat)
 	{
-		return FQuat(- InQuat.X, InQuat.Y, - InQuat.Z, InQuat.W);
+		return FQuat(- InQuat.X, InQuat.Y, InQuat.Z, -InQuat.W);
 	}
 	
 	// FVector by value
