@@ -136,6 +136,7 @@ struct UTAGS_API FTags
 	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
 	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
 
+
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag key value to tag, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePair(FName& InTag, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true);
@@ -188,6 +189,20 @@ struct UTAGS_API FTags
 
 
 	///////////////////////////////////////////////////////////////////////////
+	// Add tag type
+	static bool AddTagType(TArray<FName>& InTags, const FString& TagType);
+
+	// Add tag type
+	static bool AddTagType(AActor* Actor, const FString& TagType);
+
+	// Add tag type
+	static bool AddTagType(UActorComponent* Component, const FString& TagType);
+
+	// Add tag type
+	static bool AddTagType(UObject* Object, const FString& TagType);
+
+
+	///////////////////////////////////////////////////////////////////////////
 	// Remove tag key value from tags
 	static bool RemoveKeyValuePair(FName& InTag, const FString& TagKey);
 
@@ -206,7 +221,6 @@ struct UTAGS_API FTags
 	// Remove all tag key values from world
 	DEPRECATED(4.19, "RemoveKeyValuePairs is deprecated.  Use RemoveAllKeyValuePairs instead")
 	static bool RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey);
-
 
 
 	///////////////////////////////////////////////////////////////////////////
