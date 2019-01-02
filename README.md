@@ -1,9 +1,9 @@
 UUtils
 ======
 
-Various utility modules for RobCoG.
+ * Various helper modules for RobCoG.
 
-Supported engine version: **UE 4.21**
+ * Supported engine version: **UE 4.21**
 
 Usage
 =====

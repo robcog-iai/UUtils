@@ -402,11 +402,11 @@ bool FTags::AddKeyValuePair(UObject* Object, const FString& TagType, const FStri
 {
 	if (AActor* ObjAsAct = Cast<AActor>(Object))
 	{
-		return AddKeyValuePair(ObjAsAct->Tags, TagType, TagKey, TagValue, bReplaceExisting);
+		return FTags::AddKeyValuePair(ObjAsAct->Tags, TagType, TagKey, TagValue, bReplaceExisting);
 	}
 	else if (UActorComponent* ObjAsActComp = Cast<UActorComponent>(Object))
 	{
-		return AddKeyValuePair(ObjAsActComp->ComponentTags, TagType, TagKey, TagValue, bReplaceExisting);
+		return FTags::AddKeyValuePair(ObjAsActComp->ComponentTags, TagType, TagKey, TagValue, bReplaceExisting);
 	}
 	return false;
 }
@@ -567,6 +567,49 @@ bool FTags::AddKeyValuePairs(UObject* Object, const FString& TagType, const TMap
 	else if (UActorComponent* ObjAsActComp = Cast<UActorComponent>(Object))
 	{
 		return FTags::AddKeyValuePairs(ObjAsActComp->ComponentTags, TagType, InKeyValuePairs, bReplaceExisting);
+	}
+	return false;
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+// Add tag type
+bool FTags::AddTagType(TArray<FName>& InTags, const FString& TagType)
+{
+	// Check if type exists and return index of its location in the array
+	int32 TagIndex = FTags::GetTagTypeIndex(InTags, TagType);
+	if (TagIndex == INDEX_NONE)
+	{
+		FString NewTag;
+		InTags.Add(FName(*NewTag.Append(TagType).Append(";")));
+		return true;
+	}
+	// Tag already exist
+	return true;
+}
+
+// Add tag type
+bool FTags::AddTagType(AActor* Actor, const FString& TagType)
+{
+	return FTags::AddTagType(Actor->Tags, TagType);
+}
+
+// Add tag type
+bool FTags::AddTagType(UActorComponent* Component, const FString& TagType)
+{
+	return FTags::AddTagType(Component->ComponentTags, TagType);
+}
+
+// Add tag type
+bool FTags::AddTagType(UObject* Object, const FString& TagType)
+{
+	if (AActor* ObjAsAct = Cast<AActor>(Object))
+	{
+		return FTags::AddTagType(ObjAsAct->Tags, TagType);
+	}
+	else if (UActorComponent* ObjAsActComp = Cast<UActorComponent>(Object))
+	{
+		return FTags::AddTagType(ObjAsActComp->ComponentTags, TagType);
 	}
 	return false;
 }
