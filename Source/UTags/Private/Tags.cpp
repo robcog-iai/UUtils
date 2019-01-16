@@ -830,20 +830,20 @@ TMap<uint32, FString> FTags::GetObjectsIdToKeyValue(UWorld* World, const FString
 	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
 	{
 		// Add to map if key is found in the actor
-		FString Value = FTags::GetValue(*ActorItr, TagType, TagKey);
-		if (!Value.IsEmpty())
+		FString ActValue = FTags::GetValue(*ActorItr, TagType, TagKey);
+		if (!ActValue.IsEmpty())
 		{
-			ObjectsIdToKeyValue.Emplace(ActorItr->GetUniqueID(), Value);
+			ObjectsIdToKeyValue.Emplace(ActorItr->GetUniqueID(), ActValue);
 		}
 
 		// Iterate components of the actor
 		for (const auto& CompItr : ActorItr->GetComponents())
 		{
 			// Add to map if key is found in the actor
-			FString Value = FTags::GetValue(CompItr, TagType, TagKey);
-			if (!Value.IsEmpty())
+			FString CompValue = FTags::GetValue(CompItr, TagType, TagKey);
+			if (!CompValue.IsEmpty())
 			{
-				ObjectsIdToKeyValue.Emplace(CompItr->GetUniqueID(), Value);
+				ObjectsIdToKeyValue.Emplace(CompItr->GetUniqueID(), CompValue);
 			}
 		}
 	}
@@ -859,20 +859,20 @@ TMap<UObject*, FString> FTags::GetObjectsToKeyValue(UWorld* World, const FString
 	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
 	{
 		// Add to map if key is found in the actor
-		FString Value = FTags::GetValue(*ActorItr, TagType, TagKey);
-		if (!Value.IsEmpty())
+		FString ActValue = FTags::GetValue(*ActorItr, TagType, TagKey);
+		if (!ActValue.IsEmpty())
 		{
-			ObjectsToKeyValue.Emplace(*ActorItr, Value);
+			ObjectsToKeyValue.Emplace(*ActorItr, ActValue);
 		}
 
 		// Iterate components of the actor
 		for (const auto& CompItr : ActorItr->GetComponents())
 		{
 			// Add to map if key is found in the actor
-			FString Value = FTags::GetValue(CompItr, TagType, TagKey);
-			if (!Value.IsEmpty())
+			FString CompValue = FTags::GetValue(CompItr, TagType, TagKey);
+			if (!CompValue.IsEmpty())
 			{
-				ObjectsToKeyValue.Emplace(CompItr, Value);
+				ObjectsToKeyValue.Emplace(CompItr, CompValue);
 			}
 		}
 	}
@@ -930,20 +930,20 @@ TMap<FString, UObject*> FTags::GetKeyValuesToObject(UWorld* World, const FString
 	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
 	{
 		// Add to map if key is found in the actor
-		FString Value = FTags::GetValue(*ActorItr, TagType, TagKey);
-		if (!Value.IsEmpty())
+		FString ActValue = FTags::GetValue(*ActorItr, TagType, TagKey);
+		if (!ActValue.IsEmpty())
 		{
-			KeyValuesToObjects.Emplace(Value, *ActorItr);
+			KeyValuesToObjects.Emplace(ActValue, *ActorItr);
 		}
 
 		// Iterate components of the actor
 		for (const auto& CompItr : ActorItr->GetComponents())
 		{
 			// Add to map if key is found in the actor
-			FString Value = FTags::GetValue(CompItr, TagType, TagKey);
-			if (!Value.IsEmpty())
+			FString CompValue = FTags::GetValue(CompItr, TagType, TagKey);
+			if (!CompValue.IsEmpty())
 			{
-				KeyValuesToObjects.Emplace(Value, CompItr);
+				KeyValuesToObjects.Emplace(CompValue, CompItr);
 			}
 		}
 	}
