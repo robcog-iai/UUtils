@@ -382,7 +382,7 @@ bool FTags::AddKeyValuePair(TArray<FName>& InTags, const FString& TagType, const
 	int32 TagIndex = FTags::GetTagTypeIndex(InTags, TagType);
 	if (TagIndex != INDEX_NONE)
 	{
-		return FTags::AddKeyValuePair(InTags[TagIndex], TagKey, TagValue, bReplaceExisting);
+		return FTags::AddKeyValuePair(InTags[TagIndex], TagKey, TagValue, bReplaceExisting, Owner);
 	}
 	else // Type was not found, create a new one
 	{
