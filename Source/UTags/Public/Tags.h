@@ -1,4 +1,4 @@
-// Copyright 2018, Institute for Artificial Intelligence - University of Bremen
+// Copyright 2019, Institute for Artificial Intelligence - University of Bremen
 // Author: Andrei Haidu (http://haidu.eu)
 
 #pragma once
@@ -139,10 +139,10 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag key value to tag, if bReplaceExisting is true, replace existing value
-	static bool AddKeyValuePair(FName& InTag, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true);
+	static bool AddKeyValuePair(FName& InTag, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true, UObject* Owner = nullptr);
 
 	// Add tag key value to tags, if bReplaceExisting is true, replace existing value
-	static bool AddKeyValuePair(TArray<FName>& InTags, const FString& TagType, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true);
+	static bool AddKeyValuePair(TArray<FName>& InTags, const FString& TagType, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true, UObject* Owner = nullptr);
 
 	// Add tag key value to actor, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePair(AActor* Actor, const FString& TagType, const FString& TagKey, const FString& TagValue, bool bReplaceExisting = true);
@@ -156,10 +156,10 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	//Add array of tag key values to tag, if bReplaceExisting is true, replace existing value
-	static bool AddKeyValuePairs(FName& InTag, const TArray<TPair<FString, FString>>& InKeyValuePairs, bool bReplaceExisting = true);
+	static bool AddKeyValuePairs(FName& InTag, const TArray<TPair<FString, FString>>& InKeyValuePairs, bool bReplaceExisting = true, UObject* Owner = nullptr);
 
 	// Add array of tag key values to tags, if bReplaceExisting is true, replace existing value
-	static bool AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TArray<TPair<FString, FString>>& InKeyValuePairs, bool bReplaceExisting = true);
+	static bool AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TArray<TPair<FString, FString>>& InKeyValuePairs, bool bReplaceExisting = true, UObject* Owner = nullptr);
 
 	// Add array of tag key values to the actor,, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePairs(AActor* Actor, const FString& TagType, const TArray<TPair<FString, FString>>& InKeyValuePairs, bool bReplaceExisting = true);
@@ -173,10 +173,10 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	//Add map of tag key values to tag, if bReplaceExisting is true, replace existing value
-	static bool AddKeyValuePairs(FName& InTag, const TMap<FString, FString>& InKeyValuePairs, bool bReplaceExisting = true);
+	static bool AddKeyValuePairs(FName& InTag, const TMap<FString, FString>& InKeyValuePairs, bool bReplaceExisting = true, UObject* Owner = nullptr);
 
 	// Add map of tag key values to tags, if bReplaceExisting is true, replace existing value
-	static bool AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TMap<FString, FString>& InKeyValuePairs, bool bReplaceExisting = true);
+	static bool AddKeyValuePairs(TArray<FName>& InTags, const FString& TagType, const TMap<FString, FString>& InKeyValuePairs, bool bReplaceExisting = true, UObject* Owner = nullptr);
 
 	// Add map of tag key values to the actor,, if bReplaceExisting is true, replace existing value
 	static bool AddKeyValuePairs(AActor* Actor, const FString& TagType, const TMap<FString, FString>& InKeyValuePairs, bool bReplaceExisting = true);
@@ -190,7 +190,7 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	// Add tag type
-	static bool AddTagType(TArray<FName>& InTags, const FString& TagType);
+	static bool AddTagType(TArray<FName>& InTags, const FString& TagType, UObject* Owner = nullptr);
 
 	// Add tag type
 	static bool AddTagType(AActor* Actor, const FString& TagType);
@@ -204,10 +204,10 @@ struct UTAGS_API FTags
 
 	///////////////////////////////////////////////////////////////////////////
 	// Remove tag key value from tags
-	static bool RemoveKeyValuePair(FName& InTag, const FString& TagKey);
+	static bool RemoveKeyValuePair(FName& InTag, const FString& TagKey, UObject* Owner = nullptr);
 
 	// Remove tag key value from tags
-	static bool RemoveKeyValuePair(TArray<FName>& InTags, const FString& TagType, const FString& TagKey);
+	static bool RemoveKeyValuePair(TArray<FName>& InTags, const FString& TagType, const FString& TagKey, UObject* Owner = nullptr);
 
 	// Remove tag key value from actor
 	static bool RemoveKeyValuePair(AActor* Actor, const FString& TagType, const FString& TagKey);
