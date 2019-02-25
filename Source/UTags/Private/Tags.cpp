@@ -661,9 +661,10 @@ bool FTags::RemoveKeyValuePair(UActorComponent* Component, const FString& TagTyp
 bool FTags::RemoveAllKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey)
 {
 	// Iterate actors from world
-	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
+	//for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
+	for (const auto& ActorItr : World->PersistentLevel->Actors)
 	{
-		FTags::RemoveKeyValuePair(*ActorItr, TagType, TagKey);
+		FTags::RemoveKeyValuePair(ActorItr, TagType, TagKey);
 
 		// Iterate components of the actor
 		for (const auto& CompItr : ActorItr->GetComponents())
