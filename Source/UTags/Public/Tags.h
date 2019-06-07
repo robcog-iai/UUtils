@@ -113,27 +113,27 @@ struct UTAGS_API FTags
 	///////////////////////////////////////////////////////////////////////////
 	// Get tag key value from tag
 	static FString GetValue(const FName& InTag, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
+	UE_DEPRECATED(4.19, "GetKeyValue is DEPRECATED.  Use GetValue instead")
 	static FString GetKeyValue(const FName& InTag, const FString& TagKey);
 
 	// Get tag key value from tag array
 	static FString GetValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
+	UE_DEPRECATED(4.19, "GetKeyValue is DEPRECATED.  Use GetValue instead")
 	static FString GetKeyValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey);
 	
 	// Get tag key value from actor
 	static FString GetValue(AActor* Actor, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
+	UE_DEPRECATED(4.19, "GetKeyValue is DEPRECATED.  Use GetValue instead")
 	static FString GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey);
 
 	// Get tag key value from component
 	static FString GetValue(UActorComponent* Component, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
+	UE_DEPRECATED(4.19, "GetKeyValue is DEPRECATED.  Use GetValue instead")
 	static FString GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey);
 	
 	// Get tag key value from object
 	static FString GetValue(UObject* Object, const FString& TagType, const FString& TagKey);
-	DEPRECATED(4.19, "GetKeyValue is deprecated.  Use GetValue instead")
+	UE_DEPRECATED(4.19, "GetKeyValue is DEPRECATED.  Use GetValue instead")
 	static FString GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey);
 
 
@@ -219,7 +219,7 @@ struct UTAGS_API FTags
 	static bool RemoveAllKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey);
 
 	// Remove all tag key values from world
-	DEPRECATED(4.19, "RemoveKeyValuePairs is deprecated.  Use RemoveAllKeyValuePairs instead")
+	UE_DEPRECATED(4.19, "RemoveKeyValuePairs is UE_DEPRECATED.  Use RemoveAllKeyValuePairs instead")
 	static bool RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey);
 
 
@@ -240,7 +240,7 @@ struct UTAGS_API FTags
 	///////////////////////////////////////////////////////////////////////////
 	// Get all objects (actor and actor components) to tag key value pairs from world
 	static TMap<UObject*, TMap<FString, FString>> GetObjectKeyValuePairsMap(UWorld* World, const FString& TagType);
-	DEPRECATED(4.19, "GetObjectsToKeyValuePairs is deprecated.  Use GetObjectKeyValuePairsMap instead")
+	UE_DEPRECATED(4.19, "GetObjectsToKeyValuePairs is UE_DEPRECATED.  Use GetObjectKeyValuePairsMap instead")
 	static TMap<UObject*, TMap<FString, FString>> GetObjectsToKeyValuePairs(UWorld* World, const FString& TagType);
 
 	// Get all actors to tag key value pairs from world
