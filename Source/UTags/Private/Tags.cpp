@@ -269,11 +269,6 @@ FString FTags::GetValue(const FName& InTag, const FString& TagKey)
 	return FString();
 }
 
-FString FTags::GetKeyValue(const FName& InTag, const FString& TagKey)
-{
-	return FTags::GetValue(InTag, TagKey);
-}
-
 // Get tag key value from tag array
 FString FTags::GetValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey)
 {
@@ -288,11 +283,6 @@ FString FTags::GetValue(const TArray<FName>& InTags, const FString& TagType, con
 	return FString();
 }
 
-FString FTags::GetKeyValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(InTags, TagType, TagKey);
-}
-
 // Get tag key value from actor
 FString FTags::GetValue(AActor* Actor, const FString& TagType, const FString& TagKey)
 {
@@ -303,11 +293,6 @@ FString FTags::GetValue(AActor* Actor, const FString& TagType, const FString& Ta
 	return FTags::GetValue(Actor->Tags, TagType, TagKey);
 }
 
-FString FTags::GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(Actor, TagType, TagKey);
-}
-
 // Get tag key value from component
 FString FTags::GetValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
 {
@@ -316,11 +301,6 @@ FString FTags::GetValue(UActorComponent* Component, const FString& TagType, cons
 		return FString();
 	}
 	return FTags::GetValue(Component->ComponentTags, TagType, TagKey);
-}
-
-FString FTags::GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(Component, TagType, TagKey);
 }
 
 // Get tag key value from object
@@ -335,11 +315,6 @@ FString FTags::GetValue(UObject* Object, const FString& TagType, const FString& 
 		return GetValue(ObjAsActComp->ComponentTags, TagType, TagKey);
 	}
 	return FString();
-}
-
-FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(Object, TagType, TagKey);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -719,12 +694,6 @@ bool FTags::RemoveAllKeyValuePairs(UWorld* World, const FString& TagType, const 
 	return true;
 }
 
-// Remove all tag key values from world
-bool FTags::RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey)
-{
-	return FTags::RemoveAllKeyValuePairs(World, TagType, TagKey);
-}
-
 
 ///////////////////////////////////////////////////////////////////////////
 // Get tag key value pairs from tag array
@@ -817,11 +786,6 @@ TMap<UObject*, TMap<FString, FString>> FTags::GetObjectKeyValuePairsMap(UWorld* 
 		}
 	}
 	return ObjectToTagProperties;
-}
-
-TMap<UObject*, TMap<FString, FString>> FTags::GetObjectsToKeyValuePairs(UWorld* World, const FString& TagType)
-{
-	return FTags::GetObjectKeyValuePairsMap(World, TagType);
 }
 
 // Get all actors to tag key value pairs from world
