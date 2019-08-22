@@ -127,22 +127,15 @@ struct UIDS_API FIds
 	}
 
 
-	// Encode to cantor pair (if order is ignored the small number will alway be X)
-	// X will be forced to the smaller number (f(a,b) != f(b,a));
+	// Encode to cantor pair; !! f(a,b) != f(b,a); !!
 	// https://en.wikipedia.org/wiki/Pairing_function
 	static uint64 PairEncodeCantor(uint32 X, uint32 Y)
 	{
-		if(X < Y)
-		{
-			return (uint64)(0.5*(X + Y)*(X + Y + 1) + Y);
-		}
-		else
-		{
-			return (uint64)(0.5*(Y + X)*(Y + X + 1) + X);
-		}
+		return (uint64)(0.5*(X + Y)*(X + Y + 1) + Y);
 	}
 
-	// Decode to cantor pair 
+	// Decode to cantor pair
+	// (if order is ignored the small number will alway be X)
 	static void PairDecodeCantor(uint64 InP, uint32& OutX, uint32& OutY)
 	{
 		uint32 W = floor(((sqrt((InP * 8) + 1)) - 1) / 2);
