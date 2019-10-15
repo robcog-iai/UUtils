@@ -72,7 +72,7 @@ int32 FTags::GetTagTypeIndex(UObject* Object, const FString& TagType)
 // Check if type exists in tag
 bool FTags::HasType(const FName& InTag, const FString& TagType)
 {
-	return InTag.ToString().StartsWith(TagType);
+	return InTag.ToString().StartsWith(TagType + ";");
 }
 
 // Check if type exists in tag array
@@ -128,7 +128,7 @@ bool FTags::HasType(UObject* Object, const FString& TagType)
 // Check if key exists in tag
 bool FTags::HasKey(const FName& InTag, const FString& TagKey)
 {
-	return InTag.ToString().Find(";" + TagKey) != INDEX_NONE;
+	return InTag.ToString().Find(";" + TagKey + ",") != INDEX_NONE;
 }
 
 // Check if key exists tag array
@@ -190,7 +190,7 @@ bool FTags::HasKey(UObject* Object, const FString& TagType, const FString& TagKe
 // Check if key value pair exists in tag
 bool FTags::HasKeyValuePair(const FName& InTag, const FString& TagKey, const FString& TagValue)
 {
-	return InTag.ToString().Find(";" + TagKey + "," + TagValue) != INDEX_NONE;
+	return InTag.ToString().Find(";" + TagKey + "," + TagValue + ";") != INDEX_NONE;
 }
 
 // Check if key value pair exists in tag array
@@ -256,7 +256,7 @@ FString FTags::GetValue(const FName& InTag, const FString& TagKey)
 	FString CurrTag = InTag.ToString();
 
 	// Check the position of the key string in the tag
-	int32 KeyPos = CurrTag.Find(";" + TagKey);
+	int32 KeyPos = CurrTag.Find(";" + TagKey + ",");
 	if (KeyPos != INDEX_NONE)
 	{
 		// Remove from tag with the cut length of: 
