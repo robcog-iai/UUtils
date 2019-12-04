@@ -1,4 +1,4 @@
-// Copyright 2019, Institute for Artificial Intelligence - University of Bremen
+// Copyright 2017-2019, Institute for Artificial Intelligence - University of Bremen
 // Author: Andrei Haidu (http://haidu.eu)
 
 #pragma once
@@ -127,14 +127,15 @@ struct UIDS_API FIds
 	}
 
 
-	// Encode to cantor pair (if order is ignored the small number will alway be X)
+	// Encode to cantor pair; !! f(a,b) != f(b,a); !!
 	// https://en.wikipedia.org/wiki/Pairing_function
 	static uint64 PairEncodeCantor(uint32 X, uint32 Y)
 	{
 		return (uint64)(0.5*(X + Y)*(X + Y + 1) + Y);
 	}
 
-	// Decode to cantor pair 
+	// Decode to cantor pair
+	// (if order is ignored the small number will alway be X)
 	static void PairDecodeCantor(uint64 InP, uint32& OutX, uint32& OutY)
 	{
 		uint32 W = floor(((sqrt((InP * 8) + 1)) - 1) / 2);

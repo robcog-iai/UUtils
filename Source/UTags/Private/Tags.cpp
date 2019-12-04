@@ -1,4 +1,4 @@
-// Copyright 2019, Institute for Artificial Intelligence - University of Bremen
+// Copyright 2017-2019, Institute for Artificial Intelligence - University of Bremen
 // Author: Andrei Haidu (http://haidu.eu)
 
 #include "Tags.h"
@@ -72,7 +72,7 @@ int32 FTags::GetTagTypeIndex(UObject* Object, const FString& TagType)
 // Check if type exists in tag
 bool FTags::HasType(const FName& InTag, const FString& TagType)
 {
-	return InTag.ToString().StartsWith(TagType);
+	return InTag.ToString().StartsWith(TagType + ";");
 }
 
 // Check if type exists in tag array
@@ -128,7 +128,7 @@ bool FTags::HasType(UObject* Object, const FString& TagType)
 // Check if key exists in tag
 bool FTags::HasKey(const FName& InTag, const FString& TagKey)
 {
-	return InTag.ToString().Find(";" + TagKey) != INDEX_NONE;
+	return InTag.ToString().Find(";" + TagKey + ",") != INDEX_NONE;
 }
 
 // Check if key exists tag array
@@ -190,7 +190,7 @@ bool FTags::HasKey(UObject* Object, const FString& TagType, const FString& TagKe
 // Check if key value pair exists in tag
 bool FTags::HasKeyValuePair(const FName& InTag, const FString& TagKey, const FString& TagValue)
 {
-	return InTag.ToString().Find(";" + TagKey + "," + TagValue) != INDEX_NONE;
+	return InTag.ToString().Find(";" + TagKey + "," + TagValue + ";") != INDEX_NONE;
 }
 
 // Check if key value pair exists in tag array
@@ -256,7 +256,7 @@ FString FTags::GetValue(const FName& InTag, const FString& TagKey)
 	FString CurrTag = InTag.ToString();
 
 	// Check the position of the key string in the tag
-	int32 KeyPos = CurrTag.Find(";" + TagKey);
+	int32 KeyPos = CurrTag.Find(";" + TagKey + ",");
 	if (KeyPos != INDEX_NONE)
 	{
 		// Remove from tag with the cut length of: 
@@ -267,11 +267,6 @@ FString FTags::GetValue(const FName& InTag, const FString& TagKey)
 	}
 	// Return empty string if key was not found
 	return FString();
-}
-
-FString FTags::GetKeyValue(const FName& InTag, const FString& TagKey)
-{
-	return FTags::GetValue(InTag, TagKey);
 }
 
 // Get tag key value from tag array
@@ -288,11 +283,6 @@ FString FTags::GetValue(const TArray<FName>& InTags, const FString& TagType, con
 	return FString();
 }
 
-FString FTags::GetKeyValue(const TArray<FName>& InTags, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(InTags, TagType, TagKey);
-}
-
 // Get tag key value from actor
 FString FTags::GetValue(AActor* Actor, const FString& TagType, const FString& TagKey)
 {
@@ -303,11 +293,6 @@ FString FTags::GetValue(AActor* Actor, const FString& TagType, const FString& Ta
 	return FTags::GetValue(Actor->Tags, TagType, TagKey);
 }
 
-FString FTags::GetKeyValue(AActor* Actor, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(Actor, TagType, TagKey);
-}
-
 // Get tag key value from component
 FString FTags::GetValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
 {
@@ -316,11 +301,6 @@ FString FTags::GetValue(UActorComponent* Component, const FString& TagType, cons
 		return FString();
 	}
 	return FTags::GetValue(Component->ComponentTags, TagType, TagKey);
-}
-
-FString FTags::GetKeyValue(UActorComponent* Component, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(Component, TagType, TagKey);
 }
 
 // Get tag key value from object
@@ -335,11 +315,6 @@ FString FTags::GetValue(UObject* Object, const FString& TagType, const FString& 
 		return GetValue(ObjAsActComp->ComponentTags, TagType, TagKey);
 	}
 	return FString();
-}
-
-FString FTags::GetKeyValue(UObject* Object, const FString& TagType, const FString& TagKey)
-{
-	return FTags::GetValue(Object, TagType, TagKey);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -705,9 +680,10 @@ bool FTags::RemoveKeyValuePair(UActorComponent* Component, const FString& TagTyp
 bool FTags::RemoveAllKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey)
 {
 	// Iterate actors from world
-	for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
+	//for (TActorIterator<AActor> ActorItr(World); ActorItr; ++ActorItr)
+	for (const auto& ActorItr : World->PersistentLevel->Actors)
 	{
-		FTags::RemoveKeyValuePair(*ActorItr, TagType, TagKey);
+		FTags::RemoveKeyValuePair(ActorItr, TagType, TagKey);
 
 		// Iterate components of the actor
 		for (const auto& CompItr : ActorItr->GetComponents())
@@ -716,12 +692,6 @@ bool FTags::RemoveAllKeyValuePairs(UWorld* World, const FString& TagType, const 
 		}
 	}
 	return true;
-}
-
-// Remove all tag key values from world
-bool FTags::RemoveKeyValuePairs(UWorld* World, const FString& TagType, const FString& TagKey)
-{
-	return FTags::RemoveAllKeyValuePairs(World, TagType, TagKey);
 }
 
 
@@ -816,11 +786,6 @@ TMap<UObject*, TMap<FString, FString>> FTags::GetObjectKeyValuePairsMap(UWorld* 
 		}
 	}
 	return ObjectToTagProperties;
-}
-
-TMap<UObject*, TMap<FString, FString>> FTags::GetObjectsToKeyValuePairs(UWorld* World, const FString& TagType)
-{
-	return FTags::GetObjectKeyValuePairsMap(World, TagType);
 }
 
 // Get all actors to tag key value pairs from world
