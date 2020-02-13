@@ -20,6 +20,35 @@ struct UIDS_API FIds
 	//////////////////////////////////////////////////////////////////////////
 	// UUID Functions
 
+	// TODO not tested
+	// Encodes GUID to hex
+	static FString GuidToHex(FGuid InGuid)
+	{
+		return FString::Printf(TEXT("%08X%04X%04X%02X%02X%02X%02X%02X%02X%02X%02X"),
+			InGuid.A, InGuid.B >> 16, InGuid.B & 0xFFFF,
+			InGuid.C >> 24, (InGuid.C >> 16) & 0xFF, (InGuid.C >> 8) & 0xFF, InGuid.C & 0XFF,
+			InGuid.D >> 24, (InGuid.D >> 16) & 0XFF, (InGuid.D >> 8) & 0XFF, InGuid.D & 0XFF);
+	}
+
+	// Creates a new GUID and encodes it to hex
+	static FString NewGuidInHex()
+	{
+		FGuid NewGuid = FGuid::NewGuid();
+		return GuidToHex(NewGuid);
+	}
+
+	// TODO check size first
+	// Creates GUID from hex string
+	static FGuid HexToGuid(const FString& InHex)
+	{
+		return FGuid(
+			FParse::HexNumber(*InHex.Mid(0, 8)),
+			FParse::HexNumber(*InHex.Mid(8, 8)),
+			FParse::HexNumber(*InHex.Mid(16, 8)),
+			FParse::HexNumber(*InHex.Mid(24, 8))
+		);
+	}
+
 	// Encodes GUID to Base64
 	static FString GuidToBase64(FGuid InGuid)
 	{		
