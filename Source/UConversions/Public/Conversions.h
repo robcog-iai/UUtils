@@ -85,7 +85,6 @@ struct FConversions
 	// FQuat by reference
 	static FORCEINLINE void UToROS(FQuat& OutQuat)
 	{
-          UE_LOG(LogTemp, Error, TEXT("!!!!!!!!!!!!!!!!!!!!!Should not be Used"));
                 OutQuat.X *= -1;
 		OutQuat.W *= -1;
 	}
