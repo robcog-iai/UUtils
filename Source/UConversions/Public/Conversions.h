@@ -61,7 +61,6 @@ struct FConversions
 		return FTransform(UToROS(InTransform.GetRotation()), UToROS(InTransform.GetLocation()));
 	}
 
-
 	// FQuat by value
 	static FORCEINLINE FQuat UToROS(const FQuat& InQuat)
 	{
