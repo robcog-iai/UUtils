@@ -3,7 +3,7 @@ UUtils
 
  * Various helper modules for RobCoG.
 
- * Supported engine version: **UE 4.22**
+ * Supported engine version: **UE 4.25**
 
 Usage
 =====
