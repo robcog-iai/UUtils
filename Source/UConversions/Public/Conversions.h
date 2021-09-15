@@ -46,27 +46,28 @@ struct FConversions
 	*          Coordinate conversions
 	**********************************************/
 
-	/** 
-	 * Convert 
+	/**
+	 * Convert
 	 * Unreal's 'Z up', 'X forward', 'Y right' 'left handed' coordinate system
-	 * to 
+	 * to
 	 * ROS's 'Z up', 'X forward', 'Y left' 'right handed' coordinate system
 	 *
 	 * http://www.ros.org/reps/rep-0103.html
 	 */
-	
+
 	// FTransform by value
 	static FORCEINLINE FTransform UToROS(const FTransform& InTransform)
 	{
 		return FTransform(UToROS(InTransform.GetRotation()), UToROS(InTransform.GetLocation()));
 	}
-	
+
+
 	// FQuat by value
 	static FORCEINLINE FQuat UToROS(const FQuat& InQuat)
 	{
 		return FQuat(- InQuat.X, InQuat.Y, - InQuat.Z, InQuat.W);
 	}
-	
+
 	// FVector by value
 	static FORCEINLINE FVector UToROS(const FVector& InVector)
 	{
@@ -80,11 +81,12 @@ struct FConversions
 		OutTransform.SetRotation(UToROS(OutTransform.GetRotation()));
 		OutTransform.SetLocation(UToROS(OutTransform.GetLocation()));
 	}
-	
+
 	// FQuat by reference
 	static FORCEINLINE void UToROS(FQuat& OutQuat)
 	{
-		OutQuat.X *= -1;
+          UE_LOG(LogTemp, Error, TEXT("!!!!!!!!!!!!!!!!!!!!!Should not be Used"));
+                OutQuat.X *= -1;
 		OutQuat.W *= -1;
 	}
 
@@ -94,7 +96,7 @@ struct FConversions
 		OutVector.Y *= -1;
 		CmToM(OutVector);
 	}
-	
+
 	/**
 	* Convert
 	* ROS's 'Z up', 'X forward', 'Y left' 'right handed' coordinate system
@@ -114,6 +116,24 @@ struct FConversions
 	static FORCEINLINE FQuat ROSToU(const FQuat& InQuat)
 	{
 		return FQuat(- InQuat.X, InQuat.Y, - InQuat.Z, InQuat.W);
+	}
+
+	// FRotator by value
+  static FORCEINLINE FQuat ROSToU(const float& InRoll, const float& InPitch,const float& InYaw)
+        {
+          double cy = FMath::Cos(InYaw * 0.5);
+          double sy = FMath::Sin(InYaw * 0.5);
+          double cp = FMath::Cos(InPitch * 0.5);
+          double sp = FMath::Sin(InPitch * 0.5);
+          double cr = FMath::Cos(InRoll * 0.5);
+          double sr = FMath::Sin(InRoll * 0.5);
+
+          const FQuat q(sr * cp * cy - cr * sp * sy,
+                        cr * sp * cy + sr * cp * sy,
+                        cr * cp * sy - sr * sp * cy,
+                        cr * cp * cy + sr * sp * sy);
+
+          return ROSToU(q);
 	}
 
 	// FVector by value
@@ -144,15 +164,15 @@ struct FConversions
 	}
 
 
-	/** 
-	 * Convert 
-	 * Unreal's 'Z up', 'X forward', 'Y right' 'left handed' coordinate system 
-	 * to 
+	/**
+	 * Convert
+	 * Unreal's 'Z up', 'X forward', 'Y right' 'left handed' coordinate system
+	 * to
 	 * ROS's Camera 'Z forward', 'X right', 'Y down' 'right handed' coordinate system
 	 *
 	 * http://www.ros.org/reps/rep-0103.html
 	 */
-	
+
 	 // FTransform by value
 	static FORCEINLINE FTransform UToROSCamera(const FTransform& InTransform)
 	{
