@@ -21,12 +21,12 @@ struct FConversions
 		return In * 0.01f;
 	}
 
-	// Conversion by reference
-	template <class T>
-	static FORCEINLINE void CmToM(T& Out)
-	{
-		Out *= 0.01f;
-	}
+	//// Conversion by reference
+	//template <class T>
+	//static FORCEINLINE void CmToM(T& Out)
+	//{
+	//	Out *= 0.01f;
+	//}
 
 	// Conversion by value
 	template <class T>
@@ -35,12 +35,12 @@ struct FConversions
 		return In * 100.f;
 	}
 
-	// Conversion by reference
-	template <class T>
-	static FORCEINLINE void MToCm(T& Out)
-	{
-		Out *= 100.f;
-	}
+	//// Conversion by reference
+	//template <class T>
+	//static FORCEINLINE void MToCm(T& Out)
+	//{
+	//	Out *= 100.f;
+	//}
 
 	/**********************************************
 	*          Coordinate conversions
