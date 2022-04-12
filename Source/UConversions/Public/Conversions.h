@@ -107,7 +107,7 @@ struct FConversions
 	// FTransform by value
 	static FORCEINLINE FTransform ROSToU(const FTransform& InTransform)
 	{
-		return FTransform(ROSToU(InTransform.GetRotation()), ROSToU(InTransform.GetLocation()));
+		return FTransform(ROSToU(InTransform.GetRotation()), ROSToU(InTransform.GetLocation()), InTransform.GetScale3D());
 	}
 
 	// FQuat by value
